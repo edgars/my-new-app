@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminDetails {
+  id        Int      @id @default(autoincrement())
+  name  String?
+  email  String?
+  pin  String?
+  phoneno  String?
+  image  String?
+  doj  DateTime?  @db.Date
+  address  String?
+  gender  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_details")
+}
+
+model CustomerDetails {
+  id        Int      @id @default(autoincrement())
+  accountNo  String?
+  accountBallance  Decimal?
+  name  String?
+  dob  DateTime?  @db.Date
+  gvtidNo  String?
+  gvtidType  String?
+  phoneno  String?
+  image  String?
+  gender  String?
+  regDate  DateTime?  @db.Date
+  address  String?
+  email  String?
+  accountType  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("customer_details")
+}
+
+model Deposite {
+  id        Int      @id @default(autoincrement())
+  dpositeTime  DateTime?
+  accountNo  String?
+  macId  String?
+  transactionId  String?
+  ballanceBeforeDeposite  Decimal?
+  newTotalBallance  Decimal?
+  depositeBallance  Decimal?
+  depositeDate  DateTime?  @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("deposite")
+}
+
+model Withdraw {
+  id        Int      @id @default(autoincrement())
+  withdrawBalance  Decimal?
+  newTotalBalance  Decimal?
+  balanceBeforeWithdraw  Decimal?
+  transactionId  String?
+  macId  String?
+  accountNo  String?
+  withdrawTime  DateTime?
+  withdrawDate  DateTime?  @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("withdraw")
+}
+
+model NewCustomerRegistration {
+  id        Int      @id @default(autoincrement())
+  dob  DateTime?  @db.Date
+  password  String?
+  address  String?
+  gvtidType  String?
+  phoneno  String?
+  gender  String?
+  email  String?
+  accountType  String?
+  gvtidNo  String?
+  name  String?
+  usernamee  String?
+  image  String?
+  regDate  DateTime?  @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("new_customer_registration")
+}
+
