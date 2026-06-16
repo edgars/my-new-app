@@ -1,30 +1,37 @@
-async function updateOrderCalculatedFields(orderId: string) {
-  // TODO(rnc): verify that the order exists and has valid numeric values for items total, tax rate, freight, and amount paid before calculation
+async function ordersCalcFields(orderId: string) {
+  // TODO(rnc): verify that OrdersItemsTotal is computed from line items (sum of qty * price),
+  // that OrdersTaxRate is stored on the order record (percentage, e.g. 8.5 for 8.5%),
+  // that OrdersFreight and OrdersAmountPaid are persisted columns on the orders table,
+  // and that taxTotal / amountDue are stored columns (not purely derived at query time).
+
   return await prisma.$transaction(async (tx) => {
-    const order = await tx.order.findUnique({
+    const order = await tx.orders.findUniqueOrThrow({
       where: { id: orderId },
       select: {
         id: true,
         itemsTotal: true,
         taxRate: true,
         freight: true,
-        amountPaid: true
-      }
+        amountPaid: true,
+      },
     });
 
-    if (!order) {
-      throw new Error(`Order ${orderId} not found`);
-    }
+    const itemsTotal = order.itemsTotal ?? 0;
+    const taxRate = order.taxRate ?? 0;
+    const freight = order.freight ?? 0;
+    const amountPaid = order.amountPaid ?? 0;
 
-    const taxTotal = order.itemsTotal * (order.taxRate / 100);
-    const amountDue = order.itemsTotal + taxTotal + order.freight - order.amountPaid;
+    const taxTotal = itemsTotal * (taxRate / 100);
+    const amountDue = itemsTotal + taxTotal + freight - amountPaid;
 
-    await tx.order.update({
+    const updated = await tx.orders.update({
       where: { id: orderId },
       data: {
-        taxTotal: taxTotal,
-        amountDue: amountDue
-      }
+        taxTotal,
+        amountDue,
+      },
     });
+
+    return updated;
   });
 }

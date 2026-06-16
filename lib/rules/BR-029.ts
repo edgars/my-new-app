@@ -1,25 +1,56 @@
-async function itemsAfterDelete(partId: string) {
-  // TODO(rnc): verify that UpdateTotals functionality is correctly implemented by recalculating inventory totals and ensuring all related summary data matches actual part quantities after deletion
+async function itemsAfterDelete(partno: string) {
+  // TODO(rnc): verify that UpdateTotals recalculates aggregate totals (e.g. total cost, total list price, total on-hand value) across all Parts records, and confirm which totals table/fields are being updated and whether any filtering (e.g. by vendor) is required
+
   return await prisma.$transaction(async (tx) => {
-    // In a real implementation, this would call updateTotals logic
-    // which might recalculate inventory summaries, vendor totals, etc.
-    // Since we don't have the full UpdateTotals implementation details,
-    // we'll just ensure the part is deleted and any dependent records are handled
-    
-    const deletedPart = await tx.part.delete({
-      where: { id: partId }
+    const parts = await tx.parts.findMany({
+      select: {
+        partno: true,
+        description: true,
+        onhand: true,
+        onorder: true,
+        vendorno: true,
+        cost: true,
+        listprice: true,
+        backord: true,
+      },
     });
-    
-    // Example of what UpdateTotals might do - recalculate vendor part counts
-    await tx.vendor.updateMany({
-      where: { id: deletedPart.vendorno },
-      data: {
-        totalParts: {
-          decrement: 1
-        }
-      }
+
+    const totalOnHand = parts.reduce((sum, p) => sum + (p.onhand ?? 0), 0);
+    const totalOnOrder = parts.reduce((sum, p) => sum + (p.onorder ?? 0), 0);
+    const totalBackord = parts.reduce((sum, p) => sum + (p.backord ?? 0), 0);
+    const totalCostValue = parts.reduce(
+      (sum, p) => sum + (p.onhand ?? 0) * (p.cost ?? 0),
+      0
+    );
+    const totalListValue = parts.reduce(
+      (sum, p) => sum + (p.onhand ?? 0) * (p.listprice ?? 0),
+      0
+    );
+    const partCount = parts.length;
+
+    const updatedTotals = await tx.partsTotals.upsert({
+      where: { id: 1 },
+      update: {
+        totalOnHand,
+        totalOnOrder,
+        totalBackord,
+        totalCostValue,
+        totalListValue,
+        partCount,
+        updatedAt: new Date(),
+      },
+      create: {
+        id: 1,
+        totalOnHand,
+        totalOnOrder,
+        totalBackord,
+        totalCostValue,
+        totalListValue,
+        partCount,
+        updatedAt: new Date(),
+      },
     });
-    
-    return deletedPart;
+
+    return updatedTotals;
   });
 }

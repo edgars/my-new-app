@@ -1,55 +1,47 @@
-export async function handleCustomerOrderActivation(
-  fromDate: Date,
-  toDate: Date
+export async function activatePartsQuery(
+  isFiltered: boolean,
+  fromDate?: Date,
+  toDate?: Date
 ) {
-  // TODO(rnc): verify that the date range filtering logic matches the original Delphi implementation
-  // and that empty result sets properly fall back to the default customer dataset
-  
-  return await prisma.$transaction(async (tx) => {
-    try {
-      const customers = await tx.customer.findMany({
-        where: {
-          orders: {
-            some: {
-              orderDate: {
-                gte: fromDate,
-                lte: toDate
-              }
-            }
-          }
-        },
-        include: {
-          orders: {
-            where: {
-              orderDate: {
-                gte: fromDate,
-                lte: toDate
-              }
-            }
-          }
-        }
-      });
+  // TODO(rnc): verify that the date range filter maps to the correct Parts field
+  // (e.g. createdAt, updatedAt, or a domain-specific date column), confirm that
+  // the fallback behaviour (returning all parts) is acceptable when no records
+  // are found, and ensure the calling UI resets the "filtered" toggle on empty results.
 
-      if (customers.length === 0) {
-        throw new Error('No matching records in the specified date range');
-      }
+  if (!isFiltered) {
+    const parts = await prisma.parts.findMany({
+      orderBy: { partno: "asc" },
+    });
+    return { parts, filtered: false };
+  }
 
-      return {
-        success: true,
-        customers,
-        activated: true,
-        message: 'Customer query activated with date range filter'
-      };
-    } catch (error) {
-      // Fallback to default customer dataset behavior
-      const allCustomers = await tx.customer.findMany();
-      
-      return {
-        success: false,
-        customers: allCustomers,
-        activated: false,
-        message: error instanceof Error ? error.message : 'Error processing customer query'
-      };
-    }
+  if (!fromDate || !toDate) {
+    throw new Error("fromDate and toDate are required when filtering is active.");
+  }
+
+  const parts = await prisma.parts.findMany({
+    where: {
+      // TODO(rnc): replace `createdAt` with whichever date field drives the query filter
+      createdAt: {
+        gte: fromDate,
+        lte: toDate,
+      },
+    },
+    orderBy: { partno: "asc" },
   });
+
+  if (parts.length === 0) {
+    // Mirror the Delphi behaviour: fall back to the full dataset and signal the
+    // caller to reset the filter toggle, rather than returning an empty result.
+    const allParts = await prisma.parts.findMany({
+      orderBy: { partno: "asc" },
+    });
+    return {
+      parts: allParts,
+      filtered: false,
+      message: "No matching records in the specified date range.",
+    };
+  }
+
+  return { parts, filtered: true };
 }

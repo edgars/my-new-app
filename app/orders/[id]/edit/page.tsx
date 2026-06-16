@@ -80,43 +80,13 @@ export default function OrdersEditForm() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
-                <label htmlFor="empNo" className="text-sm font-medium">Employee Number</label>
-                <Controller
-                  control={control}
-                  name={"empNo" as never}
-                  render={({ field }) => (
-                    <Select value={(field.value as string) ?? ""} onValueChange={field.onChange}>
-                      <SelectTrigger id="empNo"><SelectValue placeholder="Select…" /></SelectTrigger>
-                      <SelectContent>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-                {errors.empNo && <p className="text-sm text-destructive">{String(errors.empNo?.message ?? "")}</p>}
-              </div>
-              <div className="space-y-1.5">
-                <label htmlFor="custNo" className="text-sm font-medium">Customer Number</label>
-                <Controller
-                  control={control}
-                  name={"custNo" as never}
-                  render={({ field }) => (
-                    <Select value={(field.value as string) ?? ""} onValueChange={field.onChange}>
-                      <SelectTrigger id="custNo"><SelectValue placeholder="Select…" /></SelectTrigger>
-                      <SelectContent>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-                {errors.custNo && <p className="text-sm text-destructive">{String(errors.custNo?.message ?? "")}</p>}
-              </div>
-              <div className="space-y-1.5">
-                <label htmlFor="shipToAddr1" className="text-sm font-medium">Ship To Address 1</label>
-                <Input id="shipToAddr1" type="text" placeholder="Enter ship to address 1" {...register("shipToAddr1")} />
+                <label htmlFor="shipToAddr1" className="text-sm font-medium">Ship To Addr1</label>
+                <Input id="shipToAddr1" type="text" placeholder="Enter ship to addr1" {...register("shipToAddr1")} />
                 {errors.shipToAddr1 && <p className="text-sm text-destructive">{String(errors.shipToAddr1?.message ?? "")}</p>}
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="shipToAddr2" className="text-sm font-medium">Ship To Address 2</label>
-                <Input id="shipToAddr2" type="text" placeholder="Enter ship to address 2" {...register("shipToAddr2")} />
+                <label htmlFor="shipToAddr2" className="text-sm font-medium">Ship To Addr2</label>
+                <Input id="shipToAddr2" type="text" placeholder="Enter ship to addr2" {...register("shipToAddr2")} />
                 {errors.shipToAddr2 && <p className="text-sm text-destructive">{String(errors.shipToAddr2?.message ?? "")}</p>}
               </div>
               <div className="space-y-1.5">
@@ -140,8 +110,8 @@ export default function OrdersEditForm() {
                 {errors.shipToZip && <p className="text-sm text-destructive">{String(errors.shipToZip?.message ?? "")}</p>}
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="po" className="text-sm font-medium">Purchase Order</label>
-                <Input id="po" type="text" placeholder="Enter purchase order" {...register("po")} />
+                <label htmlFor="po" className="text-sm font-medium">Po</label>
+                <Input id="po" type="text" placeholder="Enter po" {...register("po")} />
                 {errors.po && <p className="text-sm text-destructive">{String(errors.po?.message ?? "")}</p>}
               </div>
               <div className="space-y-1.5">
@@ -213,6 +183,36 @@ export default function OrdersEditForm() {
                 <label htmlFor="taxRate" className="text-sm font-medium">Tax Rate</label>
                 <Input id="taxRate" type="text" placeholder="Enter tax rate" {...register("taxRate")} />
                 {errors.taxRate && <p className="text-sm text-destructive">{String(errors.taxRate?.message ?? "")}</p>}
+              </div>
+              <div className="space-y-1.5">
+                <label htmlFor="empNo" className="text-sm font-medium">Emp No</label>
+                <Controller
+                  control={control}
+                  name={"empNo" as never}
+                  render={({ field }) => (
+                    <Select value={(field.value as string) ?? ""} onValueChange={field.onChange}>
+                      <SelectTrigger id="empNo"><SelectValue placeholder="Select…" /></SelectTrigger>
+                      <SelectContent>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.empNo && <p className="text-sm text-destructive">{String(errors.empNo?.message ?? "")}</p>}
+              </div>
+              <div className="space-y-1.5">
+                <label htmlFor="custNo" className="text-sm font-medium">Cust No</label>
+                <Controller
+                  control={control}
+                  name={"custNo" as never}
+                  render={({ field }) => (
+                    <Select value={(field.value as string) ?? ""} onValueChange={field.onChange}>
+                      <SelectTrigger id="custNo"><SelectValue placeholder="Select…" /></SelectTrigger>
+                      <SelectContent>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.custNo && <p className="text-sm text-destructive">{String(errors.custNo?.message ?? "")}</p>}
               </div>
             </CardContent>
             <CardFooter className="justify-between gap-2">

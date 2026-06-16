@@ -80,26 +80,6 @@ export default function PartsEditForm() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
-                <label htmlFor="partNo" className="text-sm font-medium">Part Number</label>
-                <Input id="partNo" type="text" placeholder="Enter part number" {...register("partNo")} />
-                {errors.partNo && <p className="text-sm text-destructive">{String(errors.partNo?.message ?? "")}</p>}
-              </div>
-              <div className="space-y-1.5">
-                <label htmlFor="vendorNo" className="text-sm font-medium">Vendor Number</label>
-                <Controller
-                  control={control}
-                  name={"vendorNo" as never}
-                  render={({ field }) => (
-                    <Select value={(field.value as string) ?? ""} onValueChange={field.onChange}>
-                      <SelectTrigger id="vendorNo"><SelectValue placeholder="Select…" /></SelectTrigger>
-                      <SelectContent>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-                {errors.vendorNo && <p className="text-sm text-destructive">{String(errors.vendorNo?.message ?? "")}</p>}
-              </div>
-              <div className="space-y-1.5">
                 <label htmlFor="onHand" className="text-sm font-medium">On Hand</label>
                 <Input id="onHand" type="text" placeholder="Enter on hand" {...register("onHand")} />
                 {errors.onHand && <p className="text-sm text-destructive">{String(errors.onHand?.message ?? "")}</p>}
@@ -120,9 +100,24 @@ export default function PartsEditForm() {
                 {errors.listPrice && <p className="text-sm text-destructive">{String(errors.listPrice?.message ?? "")}</p>}
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="backOrd" className="text-sm font-medium">Back Order</label>
-                <Input id="backOrd" type="text" placeholder="Enter back order" {...register("backOrd")} />
-                {errors.backOrd && <p className="text-sm text-destructive">{String(errors.backOrd?.message ?? "")}</p>}
+                <label htmlFor="partNo" className="text-sm font-medium">Part No</label>
+                <Input id="partNo" type="text" placeholder="Enter part no" {...register("partNo")} />
+                {errors.partNo && <p className="text-sm text-destructive">{String(errors.partNo?.message ?? "")}</p>}
+              </div>
+              <div className="space-y-1.5">
+                <label htmlFor="vendorNo" className="text-sm font-medium">Vendor No</label>
+                <Controller
+                  control={control}
+                  name={"vendorNo" as never}
+                  render={({ field }) => (
+                    <Select value={(field.value as string) ?? ""} onValueChange={field.onChange}>
+                      <SelectTrigger id="vendorNo"><SelectValue placeholder="Select…" /></SelectTrigger>
+                      <SelectContent>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.vendorNo && <p className="text-sm text-destructive">{String(errors.vendorNo?.message ?? "")}</p>}
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="description" className="text-sm font-medium">Description</label>

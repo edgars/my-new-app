@@ -1,23 +1,32 @@
-export async function updateOrderSaleDate(
-  orderId: string,
-  newSaleDate: Date
-) {
-  // TODO(rnc): verify that the order exists and user has permission to edit it before updating
-  return await prisma.$transaction(async (tx) => {
-    const order = await tx.order.findUnique({
+export async function pickDate(orderId: string, newSaleDate: Date): Promise<{ success: boolean; updatedOrder: any }> {
+  // TODO(rnc): verify that the date picker modal validation (BrDateForm.ShowModal = mrOk) is enforced
+  // on the client side before calling this handler, and that newSaleDate is a valid, non-null Date
+  // object equivalent to what BrDateForm.Date would have returned; also confirm that the Orders
+  // record is not locked or in a conflicting edit state before applying the update.
+
+  if (!orderId || !newSaleDate || isNaN(new Date(newSaleDate).getTime())) {
+    throw new Error("Invalid orderId or newSaleDate provided.");
+  }
+
+  const updatedOrder = await prisma.$transaction(async (tx) => {
+    const existingOrder = await tx.orders.findUnique({
       where: { id: orderId },
-      select: { id: true }
+      select: { id: true, saleDate: true },
     });
 
-    if (!order) {
-      throw new Error(`Order with id ${orderId} not found`);
+    if (!existingOrder) {
+      throw new Error(`Order with id ${orderId} not found.`);
     }
 
-    const updatedOrder = await tx.order.update({
+    const result = await tx.orders.update({
       where: { id: orderId },
-      data: { saleDate: newSaleDate }
+      data: {
+        saleDate: new Date(newSaleDate),
+      },
     });
 
-    return updatedOrder;
+    return result;
   });
+
+  return { success: true, updatedOrder };
 }

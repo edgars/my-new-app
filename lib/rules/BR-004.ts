@@ -1,23 +1,17 @@
-export async function handleNextMonthBtnClick(
-  calendarId: string,
-  userId: string
-) {
-  // TODO(rnc): verify that this button click should only advance the calendar view
-  // and not persist any date changes to parts or other entities - this appears
-  // to be a UI navigation action rather than a data modification operation
-  
-  const updatedCalendar = await prisma.calendar.update({
-    where: { 
-      id: calendarId,
-      userId: userId
-    },
-    data: {
-      currentViewDate: {
-        gte: new Date(new Date().getFullYear(), new Date().getMonth() + 2, 0),
-        lt: new Date(new Date().getFullYear(), new Date().getMonth() + 2, 31)
-      }
-    }
-  });
+async function nextMonthBtnClick(
+  currentDate: Date
+): Promise<{ year: number; month: number }> {
+  // TODO(rnc): verify that the calendar navigation logic matches the original Delphi Calendar1.NextMonth behavior,
+  // including edge cases for December rollover to January of the next year, and that no Parts data
+  // mutation is intended — this appears to be a pure UI date navigation procedure with no database writes.
 
-  return { success: true, newDate: updatedCalendar.currentViewDate };
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth(); // 0-indexed
+
+  const nextMonth = new Date(year, month + 1, 1);
+
+  return {
+    year: nextMonth.getFullYear(),
+    month: nextMonth.getMonth() + 1, // return 1-indexed month
+  };
 }

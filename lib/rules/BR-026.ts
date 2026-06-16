@@ -1,29 +1,38 @@
-async function TMastData_OrdersBeforeOpen() {
-  // TODO(rnc): verify that opening these datasets establishes proper record locks and read consistency
-  // before any order processing operations commence - ensure concurrent access doesn't corrupt data integrity
-  
-  const transaction = await prisma.$transaction(async (tx) => {
-    // Open/verify related datasets exist and are accessible
-    await tx.customer.findMany({
-      select: { custno: true },
-      take: 1
-    });
-    
-    await tx.order.findMany({
-      select: { orderno: true },
-      take: 1
-    });
-    
-    await tx.employee.findMany({
-      select: { empno: true },
-      take: 1
-    });
-    
-    await tx.parts.findMany({
-      select: { partno: true },
-      take: 1
-    });
-  });
+async function ordersBeforeOpen(prisma: PrismaClient) {
+  // TODO(rnc): verify that all five datasets (CustByComp, CustByOrd, Cust, Emps, Items/Parts)
+  // are required to be pre-fetched together before any Orders screen/process opens;
+  // confirm that the returned data shapes match what the consuming UI or service expects,
+  // and that no additional filtering (e.g. by company, by user) should be applied here.
 
-  return transaction;
+  const [customersByCompany, customersByOrder, customers, employees, parts] =
+    await prisma.$transaction([
+      prisma.customer.findMany({
+        orderBy: { company: "asc" },
+      }),
+      prisma.customer.findMany({
+        orderBy: { orderId: "asc" },
+      }),
+      prisma.customer.findMany(),
+      prisma.employee.findMany(),
+      prisma.parts.findMany({
+        select: {
+          partno: true,
+          description: true,
+          onhand: true,
+          onorder: true,
+          vendorno: true,
+          cost: true,
+          listprice: true,
+          backord: true,
+        },
+      }),
+    ]);
+
+  return {
+    customersByCompany,
+    customersByOrder,
+    customers,
+    employees,
+    parts,
+  };
 }

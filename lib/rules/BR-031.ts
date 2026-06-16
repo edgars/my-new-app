@@ -1,8 +1,11 @@
-export async function updateParts(partNo: number, qty: number) {
-  // TODO(rnc): verify that the part exists before attempting to update quantities and that the quantity adjustment is valid (not causing negative onhand values without proper backorder handling)
+async function updateParts(partNo: number, qty: number) {
+  // TODO(rnc): verify that backord field should be decremented when onhand is sufficient,
+  // confirm the exact business logic for backorder fulfillment vs onorder replenishment,
+  // and validate whether onorder should be decremented when stock arrives to fill the order.
+
   return await prisma.$transaction(async (tx) => {
     const part = await tx.parts.findUnique({
-      where: { partno: partNo }
+      where: { partno: partNo },
     });
 
     if (!part) {
@@ -10,20 +13,36 @@ export async function updateParts(partNo: number, qty: number) {
     }
 
     const newOnHand = part.onhand + qty;
-    
-    // If we're reducing inventory below zero, check if backordering is allowed
-    if (newOnHand < 0 && !part.backord) {
-      throw new Error(`Insufficient inventory for part ${partNo}. Current onhand: ${part.onhand}, requested change: ${qty}`);
+
+    if (newOnHand >= 0) {
+      // Sufficient stock: fulfill any backorders if possible
+      const backordFulfilled = Math.min(part.backord ?? 0, newOnHand);
+      const remainingOnHand = newOnHand - backordFulfilled;
+      const remainingBackord = (part.backord ?? 0) - backordFulfilled;
+
+      const updatedPart = await tx.parts.update({
+        where: { partno: partNo },
+        data: {
+          onhand: remainingOnHand,
+          backord: remainingBackord,
+        },
+      });
+
+      return updatedPart;
+    } else {
+      // Insufficient stock: increase backorder quantity
+      const shortfall = Math.abs(newOnHand);
+
+      const updatedPart = await tx.parts.update({
+        where: { partno: partNo },
+        data: {
+          onhand: 0,
+          backord: (part.backord ?? 0) + shortfall,
+          onorder: (part.onorder ?? 0) + shortfall,
+        },
+      });
+
+      return updatedPart;
     }
-
-    const updatedPart = await tx.parts.update({
-      where: { partno: partNo },
-      data: {
-        onhand: newOnHand,
-        onorder: qty > 0 ? part.onorder : part.onorder // Only adjust onorder if needed based on business logic
-      }
-    });
-
-    return updatedPart;
   });
 }
