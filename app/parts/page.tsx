@@ -77,22 +77,22 @@ export default function PartsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Part Number</TableHead>
-                  <TableHead>Vendor Number</TableHead>
                   <TableHead>On Hand</TableHead>
                   <TableHead>On Order</TableHead>
                   <TableHead>Cost</TableHead>
+                  <TableHead>List Price</TableHead>
+                  <TableHead>Part No</TableHead>
                   <TableHead className="w-0" />
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.map((row) => (
                   <TableRow key={row.id}>
-                    <TableCell>{String(row.partNo ?? "")}</TableCell>
-                    <TableCell>{String(row.vendorNo ?? "")}</TableCell>
                     <TableCell>{String(row.onHand ?? "")}</TableCell>
                     <TableCell>{String(row.onOrder ?? "")}</TableCell>
                     <TableCell>{String(row.cost ?? "")}</TableCell>
+                    <TableCell>{String(row.listPrice ?? "")}</TableCell>
+                    <TableCell>{String(row.partNo ?? "")}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm" asChild>
                         <Link href={`/parts/${row.id}/edit`}><Pencil className="h-4 w-4" /> Edit</Link>

@@ -1,47 +1,49 @@
-async function itemsAfterDelete(partId: string) {
-  // TODO(rnc): verify that UpdateTotals functionality is properly implemented to recalculate inventory totals after part deletion
-  return await prisma.$transaction(async (tx) => {
-    const deletedPart = await tx.part.delete({
-      where: { id: partId }
-    });
-    
-    // Trigger totals update after deletion
-    await updateTotals(tx);
-    
-    return deletedPart;
-  });
-}
+async function itemsAfterDelete(partno: string) {
+  // TODO(rnc): verify that UpdateTotals recalculates aggregate totals (e.g. total cost, total list price, total on-hand value) across all Parts records, and confirm which summary/totals table or fields are being updated by this procedure
 
-async function updateTotals(tx: any) {
-  // Recalculate total inventory values
-  const totals = await tx.part.aggregate({
-    _sum: {
-      onhand: true,
-      onorder: true,
-      cost: true,
-      listprice: true
-    }
-  });
-  
-  // Store totals in system settings or totals table as needed
-  await tx.systemSetting.upsert({
-    where: { key: 'inventory_totals' },
-    update: {
-      value: JSON.stringify({
-        totalOnHand: totals._sum.onhand || 0,
-        totalOnOrder: totals._sum.onorder || 0,
-        totalCost: totals._sum.cost || 0,
-        totalListPrice: totals._sum.listprice || 0
-      })
-    },
-    create: {
-      key: 'inventory_totals',
-      value: JSON.stringify({
-        totalOnHand: totals._sum.onhand || 0,
-        totalOnOrder: totals._sum.onorder || 0,
-        totalCost: totals._sum.cost || 0,
-        totalListPrice: totals._sum.listprice || 0
-      })
-    }
+  await prisma.$transaction(async (tx) => {
+    const parts = await tx.parts.findMany({
+      select: {
+        partno: true,
+        onhand: true,
+        onorder: true,
+        cost: true,
+        listprice: true,
+        backord: true,
+      },
+    });
+
+    const totalOnHand = parts.reduce((sum, p) => sum + (p.onhand ?? 0), 0);
+    const totalOnOrder = parts.reduce((sum, p) => sum + (p.onorder ?? 0), 0);
+    const totalBackord = parts.reduce((sum, p) => sum + (p.backord ?? 0), 0);
+    const totalCostValue = parts.reduce(
+      (sum, p) => sum + (p.onhand ?? 0) * (p.cost ?? 0),
+      0
+    );
+    const totalListValue = parts.reduce(
+      (sum, p) => sum + (p.onhand ?? 0) * (p.listprice ?? 0),
+      0
+    );
+
+    await tx.partsTotals.upsert({
+      where: { id: 1 },
+      update: {
+        totalOnHand,
+        totalOnOrder,
+        totalBackord,
+        totalCostValue,
+        totalListValue,
+        updatedAt: new Date(),
+      },
+      create: {
+        id: 1,
+        totalOnHand,
+        totalOnOrder,
+        totalBackord,
+        totalCostValue,
+        totalListValue,
+        updatedAt: new Date(),
+      },
+    });
   });
 }

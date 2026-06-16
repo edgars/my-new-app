@@ -1,7 +1,41 @@
-export async function showSearchPartsDialog() {
-  // TODO(rnc): verify that this returns parts data in the correct order based on user selection (description or partno)
-  try {
-    const parts = await prisma.parts.findMany({
+async function showModalParts(
+  orderBy: "description" | "partno" = "description",
+  searchTerm?: string
+): Promise<{ parts: any[]; total: number }> {
+  // TODO(rnc): verify that the orderBy field mapping matches the original Delphi OrderCombo
+  // behavior (index 0 = Description, index 1 = PartNo), and confirm that the Parts dataset
+  // used here (MastData.Parts) applies no additional filters beyond the sort order change
+  // triggered by OrderComboChange — also verify pagination requirements and whether
+  // backord/onorder fields should be excluded from the search dialog results.
+
+  const orderByField =
+    orderBy === "description"
+      ? { description: "asc" as const }
+      : { partno: "asc" as const };
+
+  const whereClause = searchTerm
+    ? {
+        OR: [
+          {
+            description: {
+              contains: searchTerm,
+              mode: "insensitive" as const,
+            },
+          },
+          {
+            partno: {
+              contains: searchTerm,
+              mode: "insensitive" as const,
+            },
+          },
+        ],
+      }
+    : {};
+
+  const [parts, total] = await prisma.$transaction([
+    prisma.parts.findMany({
+      where: whereClause,
+      orderBy: orderByField,
       select: {
         partno: true,
         description: true,
@@ -10,32 +44,13 @@ export async function showSearchPartsDialog() {
         vendorno: true,
         cost: true,
         listprice: true,
-        backord: true
+        backord: true,
       },
-      orderBy: {
-        description: 'asc'
-      }
-    });
+    }),
+    prisma.parts.count({
+      where: whereClause,
+    }),
+  ]);
 
-    return {
-      success: true,
-      parts: parts.map(part => ({
-        partno: part.partno,
-        description: part.description,
-        onhand: part.onhand,
-        onorder: part.onorder,
-        vendorno: part.vendorno,
-        cost: part.cost,
-        listprice: part.listprice,
-        backord: part.backord
-      })),
-      sortOptions: ['Description', 'PartNo'],
-      defaultSort: 'Description'
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to retrieve parts'
-    };
-  }
+  return { parts, total };
 }

@@ -1,52 +1,80 @@
-export async function handleOrdersBeforeInsert(req: NextApiRequest, res: NextApiResponse) {
-  // TODO(rnc): verify that this handler properly validates order state before insertion,
-  // confirms user intent when an existing order is being edited, and handles the item numbering logic
-  
-  const { orderId, userId } = req.body;
-  
-  try {
-    await prisma.$transaction(async (tx) => {
-      // Check if there's an existing order being processed by this user
-      const existingOrder = await tx.order.findFirst({
-        where: {
-          userId: userId,
-          status: { in: ['DRAFT', 'EDITING'] }
-        }
+async function ordersBeforeInsert(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  // TODO(rnc): verify that the client sends a flag indicating whether an in-progress order exists
+  // and that the user has explicitly confirmed saving it before starting a new one;
+  // also verify that FItemNo reset to 1 is handled per-session/per-order on the client or session store.
+
+  const { confirmedSaveExisting, existingOrderId } = req.body as {
+    confirmedSaveExisting?: boolean;
+    existingOrderId?: string;
+  };
+
+  // If there is an order currently being edited, the client must confirm saving it first.
+  if (existingOrderId) {
+    if (!confirmedSaveExisting) {
+      return res.status(409).json({
+        code: "ORDER_IN_PROGRESS",
+        message:
+          "An order is being processed. Save changes and start a new one?",
       });
-      
-      if (existingOrder) {
-        // In the original Delphi code, this would show a confirmation dialog
-        // Here we assume the client has already confirmed via the API call
-        // If not confirmed, we would throw an error to abort
-        
-        // Save any pending changes to the existing order
-        await tx.order.update({
-          where: { id: existingOrder.id },
-          data: { 
-            status: 'COMPLETED',
-            updatedAt: new Date()
-          }
-        });
+    }
+
+    // User confirmed — post (finalize) the existing order before inserting a new one.
+    await prisma.$transaction(async (tx) => {
+      const existingOrder = await tx.order.findUnique({
+        where: { id: existingOrderId },
+      });
+
+      if (!existingOrder) {
+        throw new Error(`Order ${existingOrderId} not found.`);
       }
-      
-      // Set the starting item number for the new order
-      // This would typically be handled in the order creation below
+
+      // Mark the existing order as posted/finalized.
+      await tx.order.update({
+        where: { id: existingOrderId },
+        data: {
+          status: "POSTED",
+          updatedAt: new Date(),
+        },
+      });
+
+      // Create the new order with itemNo reset to 1.
       const newOrder = await tx.order.create({
         data: {
-          userId: userId,
-          status: 'DRAFT',
-          currentItemNo: 1, // Equivalent to FItemNo := 1
+          itemNo: 1,
+          status: "DRAFT",
           createdAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       });
-      
+
       return newOrder;
+    }).then((newOrder) => {
+      return res.status(201).json({
+        message: "Existing order saved. New order created.",
+        newOrderId: newOrder.id,
+        itemNo: newOrder.itemNo,
+      });
     });
-    
-    res.status(200).json({ success: true });
-  } catch (error) {
-    console.error('Error in OrdersBeforeInsert:', error);
-    res.status(500).json({ error: 'Failed to process order insertion' });
+
+    return;
   }
+
+  // No existing in-progress order — simply initialize a new order with itemNo = 1.
+  const newOrder = await prisma.order.create({
+    data: {
+      itemNo: 1,
+      status: "DRAFT",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+
+  return res.status(201).json({
+    message: "New order created.",
+    newOrderId: newOrder.id,
+    itemNo: newOrder.itemNo,
+  });
 }

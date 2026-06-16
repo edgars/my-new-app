@@ -1,29 +1,43 @@
-export async function ordersBeforeCancel(orderId: string) {
-  // TODO(rnc): verify that this function is called before an order insert operation is cancelled,
-  // and that it properly handles the confirmation logic to delete associated line items
-  return await prisma.$transaction(async (tx) => {
-    const order = await tx.order.findUnique({
-      where: { id: orderId },
-      include: { items: true }
+async function ordersBeforeCancel(
+  orderId: string,
+  isInsertState: boolean,
+  userConfirmed: boolean
+): Promise<{ cancelled: boolean; message?: string }> {
+  // TODO(rnc): verify that isInsertState correctly maps to the original dsInsert state check,
+  // that userConfirmed reflects the user's response to the confirmation dialog on the client,
+  // and that cascading delete of line items matches the original Delphi behavior for all related items.
+
+  if (!isInsertState) {
+    return { cancelled: false };
+  }
+
+  const lineItemCount = await prisma.orderItem.count({
+    where: { orderId },
+  });
+
+  const hasLineItems = lineItemCount > 0;
+
+  if (!hasLineItems) {
+    return { cancelled: false };
+  }
+
+  if (!userConfirmed) {
+    return {
+      cancelled: false,
+      message: "Cancel order being inserted and delete all line items?",
+      requiresConfirmation: true,
+    } as { cancelled: boolean; message?: string };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.orderItem.deleteMany({
+      where: { orderId },
     });
 
-    if (!order) {
-      throw new Error('Order not found');
-    }
-
-    // Check if order is in insert state (newly created but not yet committed)
-    // and has associated line items
-    if (order.id && order.items.length > 0) {
-      // In a real implementation, you would need to handle the user confirmation
-      // For now, we'll proceed with deletion of line items as per the original logic
-      await tx.orderItem.deleteMany({
-        where: { orderId: orderId }
-      });
-      
-      // Return indication that cancellation should proceed
-      return { shouldCancel: true, deletedItemsCount: order.items.length };
-    }
-
-    return { shouldCancel: false, deletedItemsCount: 0 };
+    await tx.order.delete({
+      where: { id: orderId },
+    });
   });
+
+  return { cancelled: true };
 }

@@ -77,22 +77,22 @@ export default function OrdersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Employee Number</TableHead>
-                  <TableHead>Customer Number</TableHead>
-                  <TableHead>Ship To Address 1</TableHead>
-                  <TableHead>Ship To Address 2</TableHead>
+                  <TableHead>Ship To Addr1</TableHead>
+                  <TableHead>Ship To Addr2</TableHead>
                   <TableHead>Ship To Contact</TableHead>
+                  <TableHead>Ship To City</TableHead>
+                  <TableHead>Ship To State</TableHead>
                   <TableHead className="w-0" />
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.map((row) => (
                   <TableRow key={row.id}>
-                    <TableCell>{String(row.empNo ?? "")}</TableCell>
-                    <TableCell>{String(row.custNo ?? "")}</TableCell>
                     <TableCell>{String(row.shipToAddr1 ?? "")}</TableCell>
                     <TableCell>{String(row.shipToAddr2 ?? "")}</TableCell>
                     <TableCell>{String(row.shipToContact ?? "")}</TableCell>
+                    <TableCell>{String(row.shipToCity ?? "")}</TableCell>
+                    <TableCell>{String(row.shipToState ?? "")}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm" asChild>
                         <Link href={`/orders/${row.id}/edit`}><Pencil className="h-4 w-4" /> Edit</Link>

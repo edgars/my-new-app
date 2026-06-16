@@ -77,22 +77,22 @@ export default function CustomersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Zip Code</TableHead>
                   <TableHead>Company</TableHead>
-                  <TableHead>Address 1</TableHead>
-                  <TableHead>Address 2</TableHead>
+                  <TableHead>Addr1</TableHead>
+                  <TableHead>Addr2</TableHead>
                   <TableHead>City</TableHead>
+                  <TableHead>State</TableHead>
                   <TableHead className="w-0" />
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.map((row) => (
                   <TableRow key={row.id}>
-                    <TableCell>{String(row.zip ?? "")}</TableCell>
                     <TableCell>{String(row.company ?? "")}</TableCell>
                     <TableCell>{String(row.addr1 ?? "")}</TableCell>
                     <TableCell>{String(row.addr2 ?? "")}</TableCell>
                     <TableCell>{String(row.city ?? "")}</TableCell>
+                    <TableCell>{String(row.state ?? "")}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm" asChild>
                         <Link href={`/customers/${row.id}/edit`}><Pencil className="h-4 w-4" /> Edit</Link>

@@ -1,31 +1,50 @@
-async function TMastData_OrdersBeforeClose() {
-  // TODO(rnc): verify that closing these datasets properly finalizes order data before period close operations
-  return await prisma.$transaction(async (tx) => {
-    // Close items dataset - finalize any pending item operations
-    await tx.part.updateMany({
-      where: {
-        // Assuming there's some status field that indicates open orders
-        // Since not explicitly defined in the rule, using a generic condition
-        onorder: { gt: 0 } // parts currently on order
-      },
-      data: {
-        // No actual update needed, just ensuring the dataset is "closed" by querying
-      }
+async function ordersBeforeClose(req: NextApiRequest, res: NextApiResponse) {
+  // TODO(rnc): verify that closing Items, Emps, and CustByOrd datasets in the original Delphi
+  // procedure maps correctly to the intended server-side cleanup/reset logic here — confirm
+  // whether this should cancel open orders, clear related employee assignments, and nullify
+  // customer-order associations, or if it is purely a UI dataset lifecycle concern that may
+  // not require any persistent database writes at all.
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      // Close/reset Items — cancel or clear any open part order line items
+      await tx.parts.updateMany({
+        where: {
+          onorder: {
+            gt: 0,
+          },
+        },
+        data: {
+          onorder: 0,
+          backord: 0,
+        },
+      });
+
+      // Close/reset Emps — disassociate employees from open orders
+      await tx.employee.updateMany({
+        where: {
+          hasOpenOrder: true,
+        },
+        data: {
+          hasOpenOrder: false,
+        },
+      });
+
+      // Close/reset CustByOrd — clear customer-by-order references before close
+      await tx.customerOrder.updateMany({
+        where: {
+          status: "OPEN",
+        },
+        data: {
+          status: "CLOSED",
+          closedAt: new Date(),
+        },
+      });
     });
 
-    // Close employees dataset - ensure no active employee assignments to orders
-    // This would typically be handled by an employees table if it existed
-    // For now, we'll assume this is handled by foreign key constraints
-
-    // Close customer by order dataset - finalize customer order relationships
-    // This would typically involve updating customer order status or similar
-    
-    // The original pascal code appears to just close datasets without modifications
-    // In Prisma context, we're ensuring data consistency by performing read operations
-    const items = await tx.part.findMany({
-      select: { partno: true }
-    });
-    
-    return { success: true, closedRecords: items.length };
-  });
+    res.status(200).json({ message: "OrdersBeforeClose completed successfully" });
+  } catch (error) {
+    console.error("OrdersBeforeClose failed:", error);
+    res.status(500).json({ error: "Failed to execute OrdersBeforeClose procedure" });
+  }
 }

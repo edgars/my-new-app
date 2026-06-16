@@ -61,23 +61,18 @@ export default function CustomerForm() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1.5">
-              <label htmlFor="zip" className="text-sm font-medium">Zip Code</label>
-              <Input id="zip" type="text" placeholder="Enter zip code" {...register("zip")} />
-              {errors.zip && <p className="text-sm text-destructive">{String(errors.zip?.message ?? "")}</p>}
-            </div>
-            <div className="space-y-1.5">
               <label htmlFor="company" className="text-sm font-medium">Company</label>
               <Input id="company" type="text" placeholder="Enter company" {...register("company")} />
               {errors.company && <p className="text-sm text-destructive">{String(errors.company?.message ?? "")}</p>}
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="addr1" className="text-sm font-medium">Address 1</label>
-              <Input id="addr1" type="text" placeholder="Enter address 1" {...register("addr1")} />
+              <label htmlFor="addr1" className="text-sm font-medium">Addr1</label>
+              <Input id="addr1" type="text" placeholder="Enter addr1" {...register("addr1")} />
               {errors.addr1 && <p className="text-sm text-destructive">{String(errors.addr1?.message ?? "")}</p>}
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="addr2" className="text-sm font-medium">Address 2</label>
-              <Input id="addr2" type="text" placeholder="Enter address 2" {...register("addr2")} />
+              <label htmlFor="addr2" className="text-sm font-medium">Addr2</label>
+              <Input id="addr2" type="text" placeholder="Enter addr2" {...register("addr2")} />
               {errors.addr2 && <p className="text-sm text-destructive">{String(errors.addr2?.message ?? "")}</p>}
             </div>
             <div className="space-y-1.5">
@@ -89,6 +84,11 @@ export default function CustomerForm() {
               <label htmlFor="state" className="text-sm font-medium">State</label>
               <Input id="state" type="text" placeholder="Enter state" {...register("state")} />
               {errors.state && <p className="text-sm text-destructive">{String(errors.state?.message ?? "")}</p>}
+            </div>
+            <div className="space-y-1.5">
+              <label htmlFor="zip" className="text-sm font-medium">Zip</label>
+              <Input id="zip" type="text" placeholder="Enter zip" {...register("zip")} />
+              {errors.zip && <p className="text-sm text-destructive">{String(errors.zip?.message ?? "")}</p>}
             </div>
             <div className="space-y-1.5">
               <label htmlFor="country" className="text-sm font-medium">Country</label>

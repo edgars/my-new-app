@@ -1,31 +1,123 @@
-export async function handlePartSearchValidation(
-  partId: string,
-  inputChar: string
-): Promise<{ isValid: boolean; processedChar: string }> {
-  // TODO(rnc): verify that the character validation logic matches the original
-  // TSearchDlg.SearchEdKeyPress behavior where invalid characters are beeped
-  // and cleared, and only valid searchable characters are allowed through
-  
-  const part = await prisma.parts.findUnique({
-    where: { id: partId }
-  });
+async function handleSearchEdKeyPress(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  // TODO(rnc): verify that the field-level character validation logic (SrchFld.IsValidChar) is correctly
+  // replicated here — confirm which fields have restricted character sets (e.g. numeric-only for partno/cost/listprice/onhand/onorder/backord),
+  // and that the "Key > ' '" (non-control-character) guard condition is faithfully reproduced server-side.
 
-  if (!part) {
-    return { isValid: false, processedChar: '' };
+  const { searchField, searchValue } = req.body as {
+    searchField: keyof {
+      partno: string;
+      description: string;
+      onhand: number;
+      onorder: number;
+      vendorno: string;
+      cost: number;
+      listprice: number;
+      backord: number;
+    };
+    searchValue: string;
+  };
+
+  const numericFields: Array<string> = [
+    "onhand",
+    "onorder",
+    "cost",
+    "listprice",
+    "backord",
+  ];
+
+  const alphanumericFields: Array<string> = ["partno", "vendorno"];
+
+  const textFields: Array<string> = ["description"];
+
+  function isValidCharForField(field: string, value: string): boolean {
+    if (!value || value.trim() === "") {
+      return false;
+    }
+
+    // Guard equivalent to Key > ' ' — reject pure whitespace/control input
+    if (value.length === 1 && value.charCodeAt(0) <= 32) {
+      return false;
+    }
+
+    if (numericFields.includes(field)) {
+      // Numeric fields only accept digits and a single decimal point
+      return /^[\d.]*$/.test(value) && (value.match(/\./g) || []).length <= 1;
+    }
+
+    if (alphanumericFields.includes(field)) {
+      // Alphanumeric fields accept letters, digits, and common part-number characters
+      return /^[a-zA-Z0-9\-_]*$/.test(value);
+    }
+
+    if (textFields.includes(field)) {
+      // Text fields accept any printable character
+      return /^[\x20-\x7E]*$/.test(value);
+    }
+
+    return false;
   }
 
-  // Check if character is printable (greater than space)
-  if (inputChar <= ' ') {
-    return { isValid: true, processedChar: inputChar };
+  if (!searchField || searchValue === undefined) {
+    return res.status(400).json({
+      valid: false,
+      message: "searchField and searchValue are required.",
+    });
   }
 
-  // Basic character validation - allow alphanumeric and common search chars
-  const isValidChar = /^[a-zA-Z0-9\s\-_\.#]+$/.test(inputChar);
-  
-  if (!isValidChar) {
-    // In the original, this would trigger MessageBeep(0) and set Key := #0
-    return { isValid: false, processedChar: '' };
+  const validFields = [
+    "partno",
+    "description",
+    "onhand",
+    "onorder",
+    "vendorno",
+    "cost",
+    "listprice",
+    "backord",
+  ];
+
+  if (!validFields.includes(searchField)) {
+    return res.status(400).json({
+      valid: false,
+      message: `Invalid search field: ${searchField}`,
+    });
   }
 
-  return { isValid: true, processedChar: inputChar };
+  if (!isValidCharForField(searchField, searchValue)) {
+    // Equivalent to MessageBeep(0) + Key := #0 — reject the input
+    return res.status(422).json({
+      valid: false,
+      message: `Invalid character(s) in search value for field '${searchField}'.`,
+    });
+  }
+
+  try {
+    const whereClause = numericFields.includes(searchField)
+      ? { [searchField]: { equals: parseFloat(searchValue) } }
+      : { [searchField]: { contains: searchValue, mode: "insensitive" } };
+
+    const results = await prisma.parts.findMany({
+      where: whereClause as any,
+      select: {
+        partno: true,
+        description: true,
+        onhand: true,
+        onorder: true,
+        vendorno: true,
+        cost: true,
+        listprice: true,
+        backord: true,
+      },
+      orderBy: {
+        [searchField]: "asc",
+      },
+    });
+
+    return res.status(200).json({ valid: true, results });
+  } catch (error) {
+    console.error("Search error:", error);
+    return res.status(500).json({ valid: false, message: "Search failed." });
+  }
 }

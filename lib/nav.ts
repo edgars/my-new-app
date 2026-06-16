@@ -7,4 +7,9 @@ export const navItems: NavItem[] = [
   { label: "Parts", href: "/parts" },
   { label: "Customers", href: "/customers" },
   { label: "Orders", href: "/orders" },
+  { label: "Nextcusts", href: "/nextcusts" },
+  { label: "Vendors", href: "/vendors" },
+  { label: "Items", href: "/items" },
+  { label: "Nextords", href: "/nextords" },
+  { label: "Employees", href: "/employees" },
 ];
