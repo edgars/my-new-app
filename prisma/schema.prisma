@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Parts {
+  id  Int  @id @default(autoincrement())
+  partno  Float
+  description  String
+  onhand  Float?
+  onorder  Float?
+  vendorno  Int?
+  cost  Decimal?
+  listprice  Decimal?
+  backord  Boolean?
+  vendornoRef  Vendors?  @relation("Parts_vendorno", fields: [vendorno], references: [vendorno])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("parts")
+}
+
+model Customer {
+  id  Int  @id @default(autoincrement())
+  custno  Float?
+  company  String?
+  addr1  String?
+  addr2  String?
+  city  String?
+  state  String?
+  zip  String?
+  country  String?
+  phone  String?
+  fax  String?
+  taxrate  Float?
+  contact  String?
+  lastinvoicedate  DateTime?
+  orders_custno  Orders[]  @relation("Orders_custno")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("customer")
+}
+
+model Orders {
+  id  Int  @id @default(autoincrement())
+  orderno  Float?
+  custno  Int
+  saledate  DateTime?
+  shipdate  DateTime?
+  shiptocontact  String?
+  shiptoaddr1  String?
+  shiptoaddr2  String?
+  shiptocity  String?
+  shiptostate  String?
+  shiptozip  String?
+  shiptocountry  String?
+  shiptophone  String?
+  shipvia  String?
+  po  String?
+  empno  Int
+  terms  String?
+  paymentmethod  String?
+  itemstotal  Decimal?
+  taxrate  Float?
+  taxtotal  Decimal?
+  freight  Decimal?
+  amountpaid  Decimal?
+  amountdue  Decimal?
+  salesperson  String?
+  empnoRef  Employee?  @relation("Orders_empno", fields: [empno], references: [id])
+  custnoRef  Customer?  @relation("Orders_custno", fields: [custno], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+model Vendors {
+  vendorno  Int  @id
+  vendorname  String
+  contactemail  String?
+  isactive  Boolean?
+  parts_vendorno  Parts[]  @relation("Parts_vendorno")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("vendors")
+}
+
+model Employee {
+  id  Int  @id @default(autoincrement())
+  empno  Int?
+  fullname  String?
+  lastname  String?
+  firstname  String?
+  phoneext  String?
+  hiredate  DateTime?
+  salary  Float?
+  orders_empno  Orders[]  @relation("Orders_empno")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("employee")
+}
+
+
+model UiSetting {
+  entity    String   @id
+  columns   String
+  updatedAt DateTime @updatedAt
+}
