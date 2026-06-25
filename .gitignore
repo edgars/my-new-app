@@ -1,7 +1,5 @@
-node_modules
-.next
+build/
+.gradle/
+*.log
+data/
 .env
-*.db
-*.db-journal
-prisma/dev.db
-.DS_Store
