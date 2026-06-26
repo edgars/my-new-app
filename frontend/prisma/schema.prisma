@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Funcionario {
+  id  Int  @id @default(autoincrement())
+  nome  String
+  nomeGuerra  String?
+  numeroFuncional  String
+  cpf  String?
+  sexo  String?
+  fone  String?
+  vinculoValido  Int?
+  celular  String?
+  email  String?
+  estadoCivil  String?
+  grupoSanguineo  String?
+  racaCor  String?
+  dataNascimento  DateTime?
+  cidadeNascimento  String?
+  ufNascimento  String?
+  paisNascimento  String?
+  nacionalidade  String?
+  nomePai  String?
+  nomeMae  String?
+  prontuarioHpm  String?
+  tipoCadastro  String?
+  ativo  String?
+  documentosFuncionario  String?
+  dadosBancariosFuncionario  String?
+  historicoProfissional  String?
+  vestimenta  String?
+  tamanho  String?
+  adido  String?
+  corOlhos  String?
+  corCabelos  String?
+  sinaisParticulares  String?
+  altura  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("funcionario")
+}
+
+model Dependente {
+  id  Int  @id @default(autoincrement())
+  nome  String
+  dataNascimento  DateTime?
+  parentesco  String?
+  cpf  String?
+  sexo  String?
+  dadosBancarios  String?
+  documentos  String?
+  endereco  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("dependente")
+}
+
+model Lotacao {
+  id  Int  @id @default(autoincrement())
+  funcionarioAuxLookup  String?
+  dataInicio  DateTime?
+  dataFim  DateTime?
+  atual  String?
+  substituicao  String?
+  ativo  String?
+  obs  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("lotacao")
+}
+
+model AvisosUsuario {
+  id  Int  @id @default(autoincrement())
+  mensagem  String
+  perfil  String?
+  data  DateTime
+  itemIs  Int?
+  validado  String?
+  ignorar  String?
+  lancado  String?
+  ignorarChefia  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("avisos_usuario")
+}
+
+
+model UiSetting {
+  entity    String   @id
+  columns   String
+  updatedAt DateTime @updatedAt
+}
