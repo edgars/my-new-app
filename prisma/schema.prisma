@@ -7,225 +7,202 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Auditoria {
+model Curso {
   id  Int  @id @default(autoincrement())
-  numAuditoria  Float?
-  dtEvento  Float?
-  hrEvento  Float?
-  tsEvento  Float?
-  codAcao  String?
-  codModulo  String?
-  desAcao  String?
-  tipoEntidade  String?
-  idEntidade  String?
-  numCpfAfetado  String?
-  usrEvento  String?
-  nomeUsuario  String?
-  codPerfil  String?
-  codLotacao  String?
-  ipOrigem  String?
-  idSessao  String?
-  numCicloBatch  Float?
-  numSeqBatch  Float?
-  nomJobBatch  String?
-  sitBatch  String?
-  desErroBatch  String?
-  idCorrelacao  String?
-  numSeqCorrelacao  Float?
+  abvCurso  String
+  nomeCurso  String
+  ativo  String
+  interesseCorporacao  String
+  dataUltAlteracao  DateTime
+  usuarioUltAlteracao  String
+  versao  Int
+  abvCurso  String
+  interesseCorporacao  String
+  nomeCurso  String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("auditoria")
+  @@map("curso")
 }
 
-model Pagamento {
+model Funcionario {
   id  Int  @id @default(autoincrement())
-  numPagamento  Float?
-  numCpf  String?
-  numInscricao  Float?
-  codPrograma  String?
-  anoMesRef  Float?
-  numCiclo  Float?
-  vlrBruto  Float?
-  vlrLiquido  Float?
-  vlrDescontoTotal  Float?
-  sitPagamento  String?
-  dtGeracao  Float?
-  hrGeracao  Float?
-  dtEmissao  Float?
-  dtConfirmacao  Float?
-  dtCancelamento  Float?
-  motCancelamento  String?
-  codBanco  String?
-  codAgencia  String?
-  numConta  String?
-  tipoConta  String?
-  codOperacao  String?
-  numObSiafi  String?
-  numNeSiafi  String?
-  codUgEmitente  String?
-  codGestao  String?
-  sitIntegSiafi  String?
-  dtConciliacao  Float?
-  sitConciliacao  String?
-  vlrConciliado  Float?
-  codRetornoBanco  String?
-  desRetornoBanco  String?
-  hashArqRemessa  String?
-  hashArqRetorno  String?
-  dtInclusao  Float?
-  hrInclusao  Float?
-  usrInclusao  String?
-  dtUltAlteracao  Float?
-  hrUltAlteracao  Float?
-  usrUltAlteracao  String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("pagamento")
-}
-
-model PagamentoGrpDesconto {
-  occurrence  Int  @id @default(autoincrement())
-  tipoDesconto  String?
-  vlrDesconto  Float?
-  pctDesconto  Float?
-  numProcesso  String?
-  dtInicioDsct  Float?
-  dtFimDsct  Float?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("pagamento_grp_desconto")
-}
-
-model ProgramaSocial {
-  id  Int  @id @default(autoincrement())
-  codPrograma  String?
-  nomePrograma  String?
-  siglaPrograma  String?
-  tipoPrograma  String?
-  orgaoResponsavel  String?
-  leiCriacao  String?
-  dtCriacao  Float?
-  dtEncerramento  Float?
-  sitPrograma  String?
-  vlrBaseIndividual  Float?
-  vlrBaseFamiliar  Float?
-  vlrTetoBenef  Float?
-  vlrPisoBenef  Float?
-  pctReajusteAnual  Float?
-  dtUltReajuste  Float?
-  fatorK  Float?
-  rendaMaxPercap  Float?
-  idadeMin  Float?
-  idadeMax  Float?
-  indExigeFilhos  String?
-  qtdMinFilhos  Float?
-  indExigeEscola  String?
-  indExigeVacina  String?
-  indExigePrenatal  String?
-  indExigeBiometria  String?
-  dtInclusao  Float?
-  usrInclusao  String?
-  dtUltAlteracao  Float?
-  usrUltAlteracao  String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("programa_social")
-}
-
-model ProgramaSocialGrpFaixaCalculo {
-  occurrence  Int  @id @default(autoincrement())
-  rendaInicio  Float?
-  rendaFim  Float?
-  fatorMultiplicador  Float?
-  vlrAdicional  Float?
-  indAcumulativo  String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("programa_social_grp_faixa_calculo")
-}
-
-model ProgramaSocialGrpParamRegional {
-  occurrence  Int  @id @default(autoincrement())
-  codRegiao  String?
-  fatorRegional  Float?
-  vlrComplementoReg  Float?
-  indAtivoRegiao  String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("programa_social_grp_param_regional")
-}
-
-model Beneficiario {
-  id  Int  @id @default(autoincrement())
-  numInscricao  Float?
-  numCpf  String?
-  nomeCompleto  String?
+  nome  String
+  nomeGuerra  String?
+  numeroFuncional  String
+  cpf  String?
+  sexo  String?
+  fone  String?
+  vinculoValido  Int?
+  celular  String?
+  email  String?
+  estadoCivil  String?
+  grupoSanguineo  String?
+  racaCor  String?
+  dataNascimento  DateTime?
+  cidadeNascimento  String?
+  ufNascimento  String?
+  paisNascimento  String?
+  nacionalidade  String?
+  nomePai  String?
+  nomeMae  String?
+  prontuarioHpm  String?
+  tipoCadastro  String?
+  ativo  String?
+  documentosFuncionario  String?
+  dadosBancariosFuncionario  String?
+  historicoProfissional  String?
+  vestimenta  String?
+  tamanho  String?
+  adido  String?
+  corOlhos  String?
+  corCabelos  String?
+  sinaisParticulares  String?
+  altura  String?
+  dataUltAlteracao  DateTime
+  usuarioUltAlteracao  String
+  versao  Int
+  cidadeNascimento  String?
+  agenciaContaBanco  String?
+  bancoContaBanco  String?
+  bancoPisPasep  String?
+  contaContaBanco  String?
+  dataPisPasep  DateTime?
+  geraPasep  String?
+  numeroPisPasep  String?
+  tipoPagamentoContaBanco  String?
+  dataNascimento  DateTime?
+  categoriacnh  String?
+  categoriaDocumentom  String?
+  datactpsidentidadep  DateTime?
+  dataCarteiraProfissional  DateTime?
+  dataEmissaocnh  DateTime?
+  dataExpedicaoDocumentom  DateTime?
+  dataExpedicaorg  DateTime?
+  numerocnh  String?
+  numeroCarteiraProfissional  String?
+  numeroDocumentom  String?
+  numeroIdentidadeProfissional  String?
+  numerorg  String?
+  numeroTituloEleitor  String?
+  orgaoDocumentom  String?
+  orgaoExpeditorrg  String?
+  secaoTituloEleitor  String?
+  serieCarteiraProfissional  String?
+  serieDocumentom  String?
+  serieIdentidadeProfissional  String?
+  tipoIdentidadeProfissional  String?
+  tiporg  String?
+  ufcnh  String?
+  ufCarteiraProfissional  String?
+  ufDocumentom  String?
+  ufIdentidadeProfissional  String?
+  ufrg  String?
+  ufTituloEleitor  String?
+  validadecnh  DateTime?
+  zonaTituloEleitor  String?
+  estadoCivil  String?
+  grupoSanguineo  String?
+  agregado  String?
+  anoPrimeiroEmprego  String?
+  anosAdicional  String?
+  anosAverbado  String?
+  anosDesconto  String?
+  aptoJuntaMedica  String?
+  arquivo  String?
+  boletimComportamento  String?
+  boletimIncorporacao  String?
+  civil  String?
+  comportamento  String?
+  dataatdp  DateTime?
+  dataAptoJuntaMedica  DateTime?
+  datacpp  DateTime?
+  dataCenso  DateTime?
+  dataInatividade  DateTime?
+  dataIncorporacao  DateTime?
+  dataReforma  DateTime?
+  dataSubsidio  DateTime?
+  diasAdicional  String?
+  diasAverbado  String?
+  diasDesconto  String?
+  escolaridade  String?
+  fezcpp  String?
+  formaRemuneracao  String?
+  localAgregado  String?
+  matricula  String?
+  mesesAdicional  String?
+  mesesAverbado  String?
+  mesesDesconto  String?
+  motivoInatividade  String?
+  numeroAlmanaque  Int?
+  obscpp  String?
+  referencia  String?
+  subJudice  String?
+  ufEmpregoAnterior  String?
+  valoratdp  Int?
+  nomeGuerra  String?
   nomeMae  String?
   nomePai  String?
-  dtNascimento  Float?
-  sexo  String?
-  estCivil  String?
-  rgNumero  String?
-  rgOrgao  String?
-  rgUf  String?
-  rgDtExpedicao  Float?
-  logradouro  String?
-  numero  String?
-  complemento  String?
-  bairro  String?
-  municipio  String?
-  uf  String?
-  cep  Float?
-  codIbge  Float?
-  codRegiao  String?
-  codPrograma  String?
-  dtCadastro  Float?
-  dtInicioBenef  Float?
-  dtFimBenef  Float?
-  sitBeneficiario  String?
-  motSituacao  String?
-  dtUltSituacao  Float?
-  vlrRendaFamiliar  Float?
-  qtdMembrosFamilia  Float?
-  indRendaPercap  Float?
-  telFixo  String?
-  telCelular  String?
-  email  String?
-  indBiometria  String?
-  dtColetaBio  Float?
-  codPostoBio  String?
-  hashDigital  String?
-  dtInclusao  Float?
-  hrInclusao  Float?
-  usrInclusao  String?
-  dtUltAlteracao  Float?
-  hrUltAlteracao  Float?
-  usrUltAlteracao  String?
-  numVersao  Float?
+  numeroFuncional  String
+  paisNascimento  String?
+  racaCor  String?
+  tipoCadastro  String?
+  ufNascimento  String?
+  postoGraduacao  Int?
+  idFoto  Int?
+  lotacaoAtual  Int?
+  vinculoValido  Int?
+  tipoFuncionario  Int?
+  dataComportamento  DateTime?
+  lotacaoAtualqo  Int?
+  localAdido  Int?
+  corCabelos  String?
+  corOlhos  String?
+  dataAfastamento  DateTime?
+  motivoAfastamento  String?
+  sinaisParticulares  String?
+  tempoServico  String?
+  idAssinatura  Int?
+  idImpressaoDigital  Int?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("beneficiario")
+  @@map("funcionario")
 }
 
-model BeneficiarioGrpDependente {
-  occurrence  Int  @id @default(autoincrement())
-  cpfDependente  String?
-  nomeDependente  String?
-  dtNascDepend  Float?
-  parentesco  String?
-  sitDependente  String?
-  indDeficiencia  String?
+model Lotacao {
+  id  Int  @id @default(autoincrement())
+  funcionarioAuxLookup  String?
+  dataInicio  DateTime?
+  dataFim  DateTime?
+  atual  String?
+  substituicao  String?
+  ativo  String?
+  obs  String?
+  dataUltAlteracao  DateTime
+  usuarioUltAlteracao  String
+  versao  Int
+  dataFim  DateTime?
+  dataInicio  DateTime?
+  funcaoqdi  Int
+  funcionario  Int?
+  local  Int
+  postoGraduacao  Int?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("beneficiario_grp_dependente")
+  @@map("lotacao")
+}
+
+model MesAnoFerias {
+  id  Int  @id @default(autoincrement())
+  mes  String
+  ano  Int
+  funcionario  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("mes_ano_ferias")
 }
 
 

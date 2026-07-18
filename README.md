@@ -10,14 +10,10 @@ Modernized from a legacy system by RNC.
 
 ## Entities
 
-- Auditoria — `/auditorias`
-- Pagamento — `/pagamentos`
-- PagamentoGrpDesconto — `/pagamento_grp_descontos`
-- ProgramaSocial — `/programa_socials`
-- ProgramaSocialGrpFaixaCalculo — `/programa_social_grp_faixa_calculos`
-- ProgramaSocialGrpParamRegional — `/programa_social_grp_param_regionals`
-- Beneficiario — `/beneficiarios`
-- BeneficiarioGrpDependente — `/beneficiario_grp_dependentes`
+- Curso — `/cursos`
+- Funcionario — `/funcionarios`
+- Lotacao — `/lotacaos`
+- MesAnoFerias — `/mes_ano_ferias`
 
 ## Run
 
