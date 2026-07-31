@@ -10,83 +10,6 @@ servers:
     description: Local development
 
 paths:
-  /cursos:
-    get:
-      summary: List Cursos
-      operationId: listCursos
-      tags: [Curso]
-      parameters:
-        - name: page
-          in: query
-          schema: {type: integer, default: 1}
-        - name: limit
-          in: query
-          schema: {type: integer, default: 20, maximum: 100}
-      responses:
-        "200":
-          description: Paginated list of Cursos
-          content:
-            application/json:
-              schema: {$ref: "#/components/schemas/CursoList"}
-    post:
-      summary: Create Curso
-      operationId: createCurso
-      tags: [Curso]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: {$ref: "#/components/schemas/CursoInput"}
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema: {$ref: "#/components/schemas/Curso"}
-        "400":
-          description: Validation error
-          content:
-            application/json:
-              schema: {$ref: "#/components/schemas/ValidationError"}
-  "/cursos/{id}":
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema: {type: integer}
-    get:
-      summary: Get Curso by id
-      operationId: getCursoById
-      tags: [Curso]
-      responses:
-        "200":
-          content:
-            application/json:
-              schema: {$ref: "#/components/schemas/Curso"}
-        "404": {description: Not found}
-    put:
-      summary: Update Curso
-      operationId: updateCurso
-      tags: [Curso]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: {$ref: "#/components/schemas/CursoInput"}
-      responses:
-        "200":
-          content:
-            application/json:
-              schema: {$ref: "#/components/schemas/Curso"}
-        "400": {description: Validation error}
-        "404": {description: Not found}
-    delete:
-      summary: Delete Curso
-      operationId: deleteCurso
-      tags: [Curso]
-      responses:
-        "204": {description: Deleted}
-        "404": {description: Not found}
   /funcionarios:
     get:
       summary: List Funcionarios
@@ -164,11 +87,11 @@ paths:
       responses:
         "204": {description: Deleted}
         "404": {description: Not found}
-  /lotacaos:
+  /tipo_funcionarios:
     get:
-      summary: List Lotacaos
-      operationId: listLotacaos
-      tags: [Lotacao]
+      summary: List TipoFuncionarios
+      operationId: listTipoFuncionarios
+      tags: [TipoFuncionario]
       parameters:
         - name: page
           in: query
@@ -178,74 +101,74 @@ paths:
           schema: {type: integer, default: 20, maximum: 100}
       responses:
         "200":
-          description: Paginated list of Lotacaos
+          description: Paginated list of TipoFuncionarios
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/LotacaoList"}
+              schema: {$ref: "#/components/schemas/TipoFuncionarioList"}
     post:
-      summary: Create Lotacao
-      operationId: createLotacao
-      tags: [Lotacao]
+      summary: Create TipoFuncionario
+      operationId: createTipoFuncionario
+      tags: [TipoFuncionario]
       requestBody:
         required: true
         content:
           application/json:
-            schema: {$ref: "#/components/schemas/LotacaoInput"}
+            schema: {$ref: "#/components/schemas/TipoFuncionarioInput"}
       responses:
         "201":
           description: Created
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/Lotacao"}
+              schema: {$ref: "#/components/schemas/TipoFuncionario"}
         "400":
           description: Validation error
           content:
             application/json:
               schema: {$ref: "#/components/schemas/ValidationError"}
-  "/lotacaos/{id}":
+  "/tipo_funcionarios/{id}":
     parameters:
       - name: id
         in: path
         required: true
         schema: {type: integer}
     get:
-      summary: Get Lotacao by id
-      operationId: getLotacaoById
-      tags: [Lotacao]
+      summary: Get TipoFuncionario by id
+      operationId: getTipoFuncionarioById
+      tags: [TipoFuncionario]
       responses:
         "200":
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/Lotacao"}
+              schema: {$ref: "#/components/schemas/TipoFuncionario"}
         "404": {description: Not found}
     put:
-      summary: Update Lotacao
-      operationId: updateLotacao
-      tags: [Lotacao]
+      summary: Update TipoFuncionario
+      operationId: updateTipoFuncionario
+      tags: [TipoFuncionario]
       requestBody:
         required: true
         content:
           application/json:
-            schema: {$ref: "#/components/schemas/LotacaoInput"}
+            schema: {$ref: "#/components/schemas/TipoFuncionarioInput"}
       responses:
         "200":
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/Lotacao"}
+              schema: {$ref: "#/components/schemas/TipoFuncionario"}
         "400": {description: Validation error}
         "404": {description: Not found}
     delete:
-      summary: Delete Lotacao
-      operationId: deleteLotacao
-      tags: [Lotacao]
+      summary: Delete TipoFuncionario
+      operationId: deleteTipoFuncionario
+      tags: [TipoFuncionario]
       responses:
         "204": {description: Deleted}
         "404": {description: Not found}
-  /mes_ano_ferias:
+  /auditoria_detalhada_funcionarios:
     get:
-      summary: List MesAnoFerias
-      operationId: listMesAnoFerias
-      tags: [MesAnoFerias]
+      summary: List AuditoriaDetalhadaFuncionarios
+      operationId: listAuditoriaDetalhadaFuncionarios
+      tags: [AuditoriaDetalhadaFuncionario]
       parameters:
         - name: page
           in: query
@@ -255,171 +178,149 @@ paths:
           schema: {type: integer, default: 20, maximum: 100}
       responses:
         "200":
-          description: Paginated list of MesAnoFerias
+          description: Paginated list of AuditoriaDetalhadaFuncionarios
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/MesAnoFeriasList"}
+              schema: {$ref: "#/components/schemas/AuditoriaDetalhadaFuncionarioList"}
     post:
-      summary: Create MesAnoFerias
-      operationId: createMesAnoFerias
-      tags: [MesAnoFerias]
+      summary: Create AuditoriaDetalhadaFuncionario
+      operationId: createAuditoriaDetalhadaFuncionario
+      tags: [AuditoriaDetalhadaFuncionario]
       requestBody:
         required: true
         content:
           application/json:
-            schema: {$ref: "#/components/schemas/MesAnoFeriasInput"}
+            schema: {$ref: "#/components/schemas/AuditoriaDetalhadaFuncionarioInput"}
       responses:
         "201":
           description: Created
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/MesAnoFerias"}
+              schema: {$ref: "#/components/schemas/AuditoriaDetalhadaFuncionario"}
         "400":
           description: Validation error
           content:
             application/json:
               schema: {$ref: "#/components/schemas/ValidationError"}
-  "/mes_ano_ferias/{id}":
+  "/auditoria_detalhada_funcionarios/{id}":
     parameters:
       - name: id
         in: path
         required: true
         schema: {type: integer}
     get:
-      summary: Get MesAnoFerias by id
-      operationId: getMesAnoFeriasById
-      tags: [MesAnoFerias]
+      summary: Get AuditoriaDetalhadaFuncionario by id
+      operationId: getAuditoriaDetalhadaFuncionarioById
+      tags: [AuditoriaDetalhadaFuncionario]
       responses:
         "200":
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/MesAnoFerias"}
+              schema: {$ref: "#/components/schemas/AuditoriaDetalhadaFuncionario"}
         "404": {description: Not found}
     put:
-      summary: Update MesAnoFerias
-      operationId: updateMesAnoFerias
-      tags: [MesAnoFerias]
+      summary: Update AuditoriaDetalhadaFuncionario
+      operationId: updateAuditoriaDetalhadaFuncionario
+      tags: [AuditoriaDetalhadaFuncionario]
       requestBody:
         required: true
         content:
           application/json:
-            schema: {$ref: "#/components/schemas/MesAnoFeriasInput"}
+            schema: {$ref: "#/components/schemas/AuditoriaDetalhadaFuncionarioInput"}
       responses:
         "200":
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/MesAnoFerias"}
+              schema: {$ref: "#/components/schemas/AuditoriaDetalhadaFuncionario"}
         "400": {description: Validation error}
         "404": {description: Not found}
     delete:
-      summary: Delete MesAnoFerias
-      operationId: deleteMesAnoFerias
-      tags: [MesAnoFerias]
+      summary: Delete AuditoriaDetalhadaFuncionario
+      operationId: deleteAuditoriaDetalhadaFuncionario
+      tags: [AuditoriaDetalhadaFuncionario]
+      responses:
+        "204": {description: Deleted}
+        "404": {description: Not found}
+  /funcao_qdis:
+    get:
+      summary: List FuncaoQdis
+      operationId: listFuncaoQdis
+      tags: [FuncaoQdi]
+      parameters:
+        - name: page
+          in: query
+          schema: {type: integer, default: 1}
+        - name: limit
+          in: query
+          schema: {type: integer, default: 20, maximum: 100}
+      responses:
+        "200":
+          description: Paginated list of FuncaoQdis
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/FuncaoQdiList"}
+    post:
+      summary: Create FuncaoQdi
+      operationId: createFuncaoQdi
+      tags: [FuncaoQdi]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/FuncaoQdiInput"}
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/FuncaoQdi"}
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/ValidationError"}
+  "/funcao_qdis/{id}":
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: {type: integer}
+    get:
+      summary: Get FuncaoQdi by id
+      operationId: getFuncaoQdiById
+      tags: [FuncaoQdi]
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/FuncaoQdi"}
+        "404": {description: Not found}
+    put:
+      summary: Update FuncaoQdi
+      operationId: updateFuncaoQdi
+      tags: [FuncaoQdi]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/FuncaoQdiInput"}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/FuncaoQdi"}
+        "400": {description: Validation error}
+        "404": {description: Not found}
+    delete:
+      summary: Delete FuncaoQdi
+      operationId: deleteFuncaoQdi
+      tags: [FuncaoQdi]
       responses:
         "204": {description: Deleted}
         "404": {description: Not found}
 
 components:
   schemas:
-    Curso:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        abvCurso:
-          type: string
-          description: "Abv Curso"
-        nomeCurso:
-          type: string
-          description: "Nome Curso"
-        ativo:
-          type: string
-          description: "Ativo"
-        interesseCorporacao:
-          type: string
-          description: "Interesse Corporacao"
-        dataUltAlteracao:
-          type: string
-          format: date-time
-          description: "Data Ult Alteracao"
-        usuarioUltAlteracao:
-          type: string
-          description: "Usuario Ult Alteracao"
-        versao:
-          type: integer
-          format: int64
-          description: "Versao"
-        abvCurso:
-          type: string
-          description: "Abv Curso"
-        interesseCorporacao:
-          type: string
-          description: "Interesse Corporacao"
-        nomeCurso:
-          type: string
-          description: "Nome Curso"
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-        updatedAt:
-          type: string
-          format: date-time
-          readOnly: true
-    CursoInput:
-      type: object
-      required: ["abvCurso", "nomeCurso", "ativo", "interesseCorporacao", "dataUltAlteracao", "usuarioUltAlteracao", "versao", "abvCurso", "interesseCorporacao", "nomeCurso"]
-      properties:
-        abvCurso:
-          type: string
-          description: "Abv Curso"
-        nomeCurso:
-          type: string
-          description: "Nome Curso"
-        ativo:
-          type: string
-          description: "Ativo"
-        interesseCorporacao:
-          type: string
-          description: "Interesse Corporacao"
-        dataUltAlteracao:
-          type: string
-          format: date-time
-          description: "Data Ult Alteracao"
-        usuarioUltAlteracao:
-          type: string
-          description: "Usuario Ult Alteracao"
-        versao:
-          type: integer
-          format: int64
-          description: "Versao"
-        abvCurso:
-          type: string
-          description: "Abv Curso"
-        interesseCorporacao:
-          type: string
-          description: "Interesse Corporacao"
-        nomeCurso:
-          type: string
-          description: "Nome Curso"
-    CursoList:
-      type: object
-      properties:
-        data:
-          type: array
-          items: {$ref: "#/components/schemas/Curso"}
-        total: {type: integer}
-        page: {type: integer}
-        limit: {type: integer}
-    ValidationError:
-      type: object
-      properties:
-        errors:
-          type: object
-          additionalProperties:
-            type: array
-            items: {type: string}
     Funcionario:
       type: object
       properties:
@@ -1535,40 +1436,32 @@ components:
         total: {type: integer}
         page: {type: integer}
         limit: {type: integer}
-    Lotacao:
+    ValidationError:
+      type: object
+      properties:
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items: {type: string}
+    TipoFuncionario:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        funcionarioAuxLookup:
+        tipo:
           type: string
-          nullable: true
-          description: "Funcionario Aux Lookup"
-        dataInicio:
+          description: "Tipo"
+        categoriaSiarhes:
           type: string
-          nullable: true
-          description: "Data Inicio"
-        dataFim:
+          description: "Categoria Siarhes"
+        militar:
           type: string
-          nullable: true
-          description: "Data Fim"
-        atual:
+          description: "Militar"
+        ignorarImportacao:
           type: string
-          nullable: true
-          description: "Atual"
-        substituicao:
-          type: string
-          nullable: true
-          description: "Substituicao"
-        ativo:
-          type: string
-          nullable: true
-          description: "Ativo"
-        obs:
-          type: string
-          nullable: true
-          description: "Obs"
+          description: "Ignorar Importacao"
         dataUltAlteracao:
           type: string
           format: date-time
@@ -1580,30 +1473,12 @@ components:
           type: integer
           format: int64
           description: "Versao"
-        dataFim:
+        categoriaSiarhes:
           type: string
-          nullable: true
-          description: "Data Fim"
-        dataInicio:
+          description: "Categoria Siarhes"
+        ignorarImportacao:
           type: string
-          nullable: true
-          description: "Data Inicio"
-        funcaoqdi:
-          type: integer
-          format: int64
-          description: "Funcaoqdi"
-        funcionario:
-          type: string
-          nullable: true
-          description: "Funcionario"
-        local:
-          type: integer
-          format: int64
-          description: "Local"
-        postoGraduacao:
-          type: string
-          nullable: true
-          description: "Posto Graduacao"
+          description: "Ignorar Importacao"
         createdAt:
           type: string
           format: date-time
@@ -1612,38 +1487,22 @@ components:
           type: string
           format: date-time
           readOnly: true
-    LotacaoInput:
+    TipoFuncionarioInput:
       type: object
-      required: ["dataUltAlteracao", "usuarioUltAlteracao", "versao", "funcaoqdi", "local"]
+      required: ["tipo", "categoriaSiarhes", "militar", "ignorarImportacao", "dataUltAlteracao", "usuarioUltAlteracao", "versao", "categoriaSiarhes", "ignorarImportacao"]
       properties:
-        funcionarioAuxLookup:
+        tipo:
           type: string
-          nullable: true
-          description: "Funcionario Aux Lookup"
-        dataInicio:
+          description: "Tipo"
+        categoriaSiarhes:
           type: string
-          nullable: true
-          description: "Data Inicio"
-        dataFim:
+          description: "Categoria Siarhes"
+        militar:
           type: string
-          nullable: true
-          description: "Data Fim"
-        atual:
+          description: "Militar"
+        ignorarImportacao:
           type: string
-          nullable: true
-          description: "Atual"
-        substituicao:
-          type: string
-          nullable: true
-          description: "Substituicao"
-        ativo:
-          type: string
-          nullable: true
-          description: "Ativo"
-        obs:
-          type: string
-          nullable: true
-          description: "Obs"
+          description: "Ignorar Importacao"
         dataUltAlteracao:
           type: string
           format: date-time
@@ -1655,56 +1514,61 @@ components:
           type: integer
           format: int64
           description: "Versao"
-        dataFim:
+        categoriaSiarhes:
           type: string
-          nullable: true
-          description: "Data Fim"
-        dataInicio:
+          description: "Categoria Siarhes"
+        ignorarImportacao:
           type: string
-          nullable: true
-          description: "Data Inicio"
-        funcaoqdi:
-          type: integer
-          format: int64
-          description: "Funcaoqdi"
-        funcionario:
-          type: string
-          nullable: true
-          description: "Funcionario"
-        local:
-          type: integer
-          format: int64
-          description: "Local"
-        postoGraduacao:
-          type: string
-          nullable: true
-          description: "Posto Graduacao"
-    LotacaoList:
+          description: "Ignorar Importacao"
+    TipoFuncionarioList:
       type: object
       properties:
         data:
           type: array
-          items: {$ref: "#/components/schemas/Lotacao"}
+          items: {$ref: "#/components/schemas/TipoFuncionario"}
         total: {type: integer}
         page: {type: integer}
         limit: {type: integer}
-    MesAnoFerias:
+    AuditoriaDetalhadaFuncionario:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        mes:
+        tabela:
           type: string
-          description: "Mes"
-        ano:
-          type: integer
-          format: int64
-          description: "Ano"
-        funcionario:
+          description: "Tabela"
+        data:
+          type: string
+          format: date-time
+          description: "Data"
+        nfFuncionario:
           type: string
           nullable: true
-          description: "Funcionario"
+          description: "Nf Funcionario"
+        evento:
+          type: string
+          nullable: true
+          description: "Evento"
+        observacao:
+          type: string
+          nullable: true
+          description: "Observacao"
+        dataUltAlteracao:
+          type: string
+          format: date-time
+          description: "Data Ult Alteracao"
+        usuarioUltAlteracao:
+          type: string
+          description: "Usuario Ult Alteracao"
+        versao:
+          type: integer
+          format: int64
+          description: "Versao"
+        nfFuncionario:
+          type: string
+          nullable: true
+          description: "Nf Funcionario"
         createdAt:
           type: string
           format: date-time
@@ -1713,398 +1577,150 @@ components:
           type: string
           format: date-time
           readOnly: true
-    MesAnoFeriasInput:
+    AuditoriaDetalhadaFuncionarioInput:
       type: object
-      required: ["mes", "ano"]
+      required: ["tabela", "data", "dataUltAlteracao", "usuarioUltAlteracao", "versao"]
       properties:
-        mes:
+        tabela:
           type: string
-          description: "Mes"
-        ano:
-          type: integer
-          format: int64
-          description: "Ano"
-        funcionario:
+          description: "Tabela"
+        data:
+          type: string
+          format: date-time
+          description: "Data"
+        nfFuncionario:
           type: string
           nullable: true
-          description: "Funcionario"
-    MesAnoFeriasList:
+          description: "Nf Funcionario"
+        evento:
+          type: string
+          nullable: true
+          description: "Evento"
+        observacao:
+          type: string
+          nullable: true
+          description: "Observacao"
+        dataUltAlteracao:
+          type: string
+          format: date-time
+          description: "Data Ult Alteracao"
+        usuarioUltAlteracao:
+          type: string
+          description: "Usuario Ult Alteracao"
+        versao:
+          type: integer
+          format: int64
+          description: "Versao"
+        nfFuncionario:
+          type: string
+          nullable: true
+          description: "Nf Funcionario"
+    AuditoriaDetalhadaFuncionarioList:
       type: object
       properties:
         data:
           type: array
-          items: {$ref: "#/components/schemas/MesAnoFerias"}
+          items: {$ref: "#/components/schemas/AuditoriaDetalhadaFuncionario"}
+        total: {type: integer}
+        page: {type: integer}
+        limit: {type: integer}
+    FuncaoQdi:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nomeFuncao:
+          type: string
+          description: "Nome Funcao"
+        nomeFuncaoSiarhes:
+          type: string
+          nullable: true
+          description: "Nome Funcao Siarhes"
+        ativo:
+          type: string
+          description: "Ativo"
+        geral:
+          type: string
+          description: "Geral"
+        gratificada:
+          type: string
+          description: "Gratificada"
+        dataUltAlteracao:
+          type: string
+          format: date-time
+          description: "Data Ult Alteracao"
+        usuarioUltAlteracao:
+          type: string
+          description: "Usuario Ult Alteracao"
+        versao:
+          type: integer
+          format: int64
+          description: "Versao"
+        nomeFuncao:
+          type: string
+          description: "Nome Funcao"
+        nomeFuncaosiarhes:
+          type: string
+          nullable: true
+          description: "Nome Funcaosiarhes"
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+    FuncaoQdiInput:
+      type: object
+      required: ["nomeFuncao", "ativo", "geral", "gratificada", "dataUltAlteracao", "usuarioUltAlteracao", "versao", "nomeFuncao"]
+      properties:
+        nomeFuncao:
+          type: string
+          description: "Nome Funcao"
+        nomeFuncaoSiarhes:
+          type: string
+          nullable: true
+          description: "Nome Funcao Siarhes"
+        ativo:
+          type: string
+          description: "Ativo"
+        geral:
+          type: string
+          description: "Geral"
+        gratificada:
+          type: string
+          description: "Gratificada"
+        dataUltAlteracao:
+          type: string
+          format: date-time
+          description: "Data Ult Alteracao"
+        usuarioUltAlteracao:
+          type: string
+          description: "Usuario Ult Alteracao"
+        versao:
+          type: integer
+          format: int64
+          description: "Versao"
+        nomeFuncao:
+          type: string
+          description: "Nome Funcao"
+        nomeFuncaosiarhes:
+          type: string
+          nullable: true
+          description: "Nome Funcaosiarhes"
+    FuncaoQdiList:
+      type: object
+      properties:
+        data:
+          type: array
+          items: {$ref: "#/components/schemas/FuncaoQdi"}
         total: {type: integer}
         page: {type: integer}
         limit: {type: integer}
 
 x-business-rules:
-  - id: CONSULTACURS_BR-Curso-abvCurso-NotNull
-    description: "abvCurso é obrigatório"
-    severity: WARN
-    condition: "abvCurso != null"
-    affectedFields:
-      - abvCurso
-  - id: CONSULTACURS_BR-Curso-abvCurso-Size
-    description: "abvCurso comprimento máx 50"
-    severity: WARN
-    condition: "len(abvCurso) <= 50"
-    affectedFields:
-      - abvCurso
-  - id: CONSULTACURS_BR-Curso-nomeCurso-NotNull
-    description: "nomeCurso é obrigatório"
-    severity: WARN
-    condition: "nomeCurso != null"
-    affectedFields:
-      - nomeCurso
-  - id: CONSULTACURS_BR-Curso-nomeCurso-Size
-    description: "nomeCurso comprimento máx 400"
-    severity: WARN
-    condition: "len(nomeCurso) <= 400"
-    affectedFields:
-      - nomeCurso
-  - id: CONSULTACURS_BR-Curso-ativo-NotNull
-    description: "ativo é obrigatório"
-    severity: WARN
-    condition: "ativo != null"
-    affectedFields:
-      - ativo
-  - id: CONSULTACURS_BR-Curso-interesseCorporacao-NotNull
-    description: "interesseCorporacao é obrigatório"
-    severity: WARN
-    condition: "interesseCorporacao != null"
-    affectedFields:
-      - interesseCorporacao
-  - id: CONSULTACURS_BR-SQL-CURSO-001
-    description: "DATA_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - DATA_ULT_ALTERACAO
-  - id: CONSULTACURS_BR-SQL-CURSO-002
-    description: "USUARIO_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - USUARIO_ULT_ALTERACAO
-  - id: CONSULTACURS_BR-SQL-CURSO-003
-    description: "VERSAO is required"
-    severity: ERROR
-    condition: "VERSAO IS NOT NULL"
-    affectedFields:
-      - VERSAO
-  - id: CONSULTACURS_BR-SQL-CURSO-004
-    description: "ABV_CURSO is required"
-    severity: ERROR
-    condition: "ABV_CURSO IS NOT NULL"
-    affectedFields:
-      - ABV_CURSO
-  - id: CONSULTACURS_BR-SQL-CURSO-005
-    description: "ATIVO is required"
-    severity: ERROR
-    condition: "ATIVO IS NOT NULL"
-    affectedFields:
-      - ATIVO
-  - id: CONSULTACURS_BR-SQL-CURSO-006
-    description: "INTERESSE_CORPORACAO is required"
-    severity: ERROR
-    condition: "INTERESSE_CORPORACAO IS NOT NULL"
-    affectedFields:
-      - INTERESSE_CORPORACAO
-  - id: CONSULTACURS_BR-SQL-CURSO-007
-    description: "NOME_CURSO is required"
-    severity: ERROR
-    condition: "NOME_CURSO IS NOT NULL"
-    affectedFields:
-      - NOME_CURSO
-  - id: FORMULARIOTR_BR-Funcionario-nome-NotNull
-    description: "nome é obrigatório"
-    severity: WARN
-    condition: "nome != null"
-    affectedFields:
-      - nome
-  - id: FORMULARIOTR_BR-Funcionario-nome-Size
-    description: "nome comprimento máx 100"
-    severity: WARN
-    condition: "len(nome) <= 100"
-    affectedFields:
-      - nome
-  - id: FORMULARIOTR_BR-Funcionario-nomeGuerra-Size
-    description: "nomeGuerra comprimento máx 100"
-    severity: WARN
-    condition: "len(nomeGuerra) <= 100"
-    affectedFields:
-      - nomeGuerra
-  - id: FORMULARIOTR_BR-Funcionario-numeroFuncional-NotNull
-    description: "numeroFuncional é obrigatório"
-    severity: WARN
-    condition: "numeroFuncional != null"
-    affectedFields:
-      - numeroFuncional
-  - id: FORMULARIOTR_BR-Funcionario-numeroFuncional-Size
-    description: "numeroFuncional comprimento máx 20"
-    severity: WARN
-    condition: "len(numeroFuncional) <= 20"
-    affectedFields:
-      - numeroFuncional
-  - id: FORMULARIOTR_BR-Funcionario-cpf-Size
-    description: "cpf comprimento máx 14"
-    severity: WARN
-    condition: "len(cpf) <= 14"
-    affectedFields:
-      - cpf
-  - id: FORMULARIOTR_BR-Funcionario-fone-Size
-    description: "fone comprimento máx 100"
-    severity: WARN
-    condition: "len(fone) <= 100"
-    affectedFields:
-      - fone
-  - id: FORMULARIOTR_BR-Funcionario-celular-Size
-    description: "celular comprimento máx 100"
-    severity: WARN
-    condition: "len(celular) <= 100"
-    affectedFields:
-      - celular
-  - id: FORMULARIOTR_BR-Funcionario-email-Size
-    description: "email comprimento máx 200"
-    severity: WARN
-    condition: "len(email) <= 200"
-    affectedFields:
-      - email
-  - id: FORMULARIOTR_BR-Funcionario-cidadeNascimento-Size
-    description: "cidadeNascimento comprimento máx 50"
-    severity: WARN
-    condition: "len(cidadeNascimento) <= 50"
-    affectedFields:
-      - cidadeNascimento
-  - id: FORMULARIOTR_BR-Funcionario-paisNascimento-Size
-    description: "paisNascimento comprimento máx 50"
-    severity: WARN
-    condition: "len(paisNascimento) <= 50"
-    affectedFields:
-      - paisNascimento
-  - id: FORMULARIOTR_BR-Funcionario-nacionalidade-Size
-    description: "nacionalidade comprimento máx 50"
-    severity: WARN
-    condition: "len(nacionalidade) <= 50"
-    affectedFields:
-      - nacionalidade
-  - id: FORMULARIOTR_BR-Funcionario-nomePai-Size
-    description: "nomePai comprimento máx 200"
-    severity: WARN
-    condition: "len(nomePai) <= 200"
-    affectedFields:
-      - nomePai
-  - id: FORMULARIOTR_BR-Funcionario-nomeMae-Size
-    description: "nomeMae comprimento máx 200"
-    severity: WARN
-    condition: "len(nomeMae) <= 200"
-    affectedFields:
-      - nomeMae
-  - id: FORMULARIOTR_BR-Funcionario-prontuarioHPM-Size
-    description: "prontuarioHPM comprimento máx 20"
-    severity: WARN
-    condition: "len(prontuarioHPM) <= 20"
-    affectedFields:
-      - prontuarioHPM
-  - id: FORMULARIOTR_BR-Funcionario-tipoCadastro-Size
-    description: "tipoCadastro comprimento máx 50"
-    severity: WARN
-    condition: "len(tipoCadastro) <= 50"
-    affectedFields:
-      - tipoCadastro
-  - id: FORMULARIOTR_BR-Funcionario-corOlhos-Size
-    description: "corOlhos comprimento máx 50"
-    severity: WARN
-    condition: "len(corOlhos) <= 50"
-    affectedFields:
-      - corOlhos
-  - id: FORMULARIOTR_BR-Funcionario-corCabelos-Size
-    description: "corCabelos comprimento máx 50"
-    severity: WARN
-    condition: "len(corCabelos) <= 50"
-    affectedFields:
-      - corCabelos
-  - id: FORMULARIOTR_BR-Funcionario-sinaisParticulares-Size
-    description: "sinaisParticulares comprimento máx 50"
-    severity: WARN
-    condition: "len(sinaisParticulares) <= 50"
-    affectedFields:
-      - sinaisParticulares
-  - id: FORMULARIOTR_BR-Funcionario-altura-Size
-    description: "altura comprimento máx 10"
-    severity: WARN
-    condition: "len(altura) <= 10"
-    affectedFields:
-      - altura
-  - id: FORMULARIOTR_BR-Funcionario-UNIQUE-naoDeveExistirNumeroFuncionalDuplicado
-    description: "numeroFuncional não pode ser duplicado"
-    severity: WARN
-    condition: "count(numeroFuncional) == 0"
-    affectedFields:
-      - numeroFuncional
-  - id: FORMULARIOTR_BR-Funcionario-UNIQUE-naoDeveExistircpfDuplicado
-    description: "cpf não pode ser duplicado"
-    severity: WARN
-    condition: "count(cpf) == 0"
-    affectedFields:
-      - cpf
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-001
-    description: "DATA_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - DATA_ULT_ALTERACAO
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-002
-    description: "USUARIO_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - USUARIO_ULT_ALTERACAO
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-003
-    description: "VERSAO is required"
-    severity: ERROR
-    condition: "VERSAO IS NOT NULL"
-    affectedFields:
-      - VERSAO
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-004
-    description: "NOME is required"
-    severity: ERROR
-    condition: "NOME IS NOT NULL"
-    affectedFields:
-      - NOME
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-005
-    description: "NUMERO_FUNCIONAL is required"
-    severity: ERROR
-    condition: "NUMERO_FUNCIONAL IS NOT NULL"
-    affectedFields:
-      - NUMERO_FUNCIONAL
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-006
-    description: "ID_ASSINATURA must reference an existing ASSINATURA"
-    severity: ERROR
-    condition: "ID_ASSINATURA REFERENCES ASSINATURA"
-    affectedFields:
-      - ID_ASSINATURA
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-007
-    description: "ID_IMPRESSAO_DIGITAL must reference an existing IMPRESSAO_DIGITAL"
-    severity: ERROR
-    condition: "ID_IMPRESSAO_DIGITAL REFERENCES IMPRESSAO_DIGITAL"
-    affectedFields:
-      - ID_IMPRESSAO_DIGITAL
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-008
-    description: "LOCAL_ADIDO must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOCAL_ADIDO REFERENCES LOCAL"
-    affectedFields:
-      - LOCAL_ADIDO
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-009
-    description: "POSTO_GRADUACAO must reference an existing POSTO_GRADUACAO"
-    severity: ERROR
-    condition: "POSTO_GRADUACAO REFERENCES POSTO_GRADUACAO"
-    affectedFields:
-      - POSTO_GRADUACAO
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-010
-    description: "ID_FOTO must reference an existing FOTO"
-    severity: ERROR
-    condition: "ID_FOTO REFERENCES FOTO"
-    affectedFields:
-      - ID_FOTO
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-011
-    description: "LOTACAO_ATUAL must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOTACAO_ATUAL REFERENCES LOCAL"
-    affectedFields:
-      - LOTACAO_ATUAL
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-012
-    description: "TIPO_FUNCIONARIO must reference an existing TIPO_FUNCIONARIO"
-    severity: ERROR
-    condition: "TIPO_FUNCIONARIO REFERENCES TIPO_FUNCIONARIO"
-    affectedFields:
-      - TIPO_FUNCIONARIO
-  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-013
-    description: "LOTACAO_ATUALQO must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
-    affectedFields:
-      - LOTACAO_ATUALQO
-  - id: GERENTEMB_JA_BR-Lotacao-local-NotNull
-    description: "local é obrigatório"
-    severity: WARN
-    condition: "local != null"
-    affectedFields:
-      - local
-  - id: GERENTEMB_JA_BR-Lotacao-postoGraduacao-NotNull
-    description: "postoGraduacao é obrigatório"
-    severity: WARN
-    condition: "postoGraduacao != null"
-    affectedFields:
-      - postoGraduacao
-  - id: GERENTEMB_JA_BR-Lotacao-funcaoQDI-NotNull
-    description: "funcaoQDI é obrigatório"
-    severity: WARN
-    condition: "funcaoQDI != null"
-    affectedFields:
-      - funcaoQDI
-  - id: GERENTEMB_JA_BR-Lotacao-obs-Size
-    description: "obs comprimento máx 200"
-    severity: WARN
-    condition: "len(obs) <= 200"
-    affectedFields:
-      - obs
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-001
-    description: "DATA_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - DATA_ULT_ALTERACAO
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-002
-    description: "USUARIO_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - USUARIO_ULT_ALTERACAO
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-003
-    description: "VERSAO is required"
-    severity: ERROR
-    condition: "VERSAO IS NOT NULL"
-    affectedFields:
-      - VERSAO
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-004
-    description: "FUNCAOQDI is required"
-    severity: ERROR
-    condition: "FUNCAOQDI IS NOT NULL"
-    affectedFields:
-      - FUNCAOQDI
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-005
-    description: "LOCAL is required"
-    severity: ERROR
-    condition: "LOCAL IS NOT NULL"
-    affectedFields:
-      - LOCAL
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-006
-    description: "FUNCAOQDI must reference an existing FUNCAO_QDI"
-    severity: ERROR
-    condition: "FUNCAOQDI REFERENCES FUNCAO_QDI"
-    affectedFields:
-      - FUNCAOQDI
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-007
-    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
-    severity: ERROR
-    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
-    affectedFields:
-      - FUNCIONARIO
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-008
-    description: "LOCAL must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOCAL REFERENCES LOCAL"
-    affectedFields:
-      - LOCAL
-  - id: GERENTEMB_JA_BR-SQL-LOTACAO-009
-    description: "POSTO_GRADUACAO must reference an existing POSTO_GRADUACAO"
-    severity: ERROR
-    condition: "POSTO_GRADUACAO REFERENCES POSTO_GRADUACAO"
-    affectedFields:
-      - POSTO_GRADUACAO
   - id: FUNCIONARIOM_BR-Funcionario-nome-NotNull
     description: "nome é obrigatório"
     severity: WARN
@@ -2315,30 +1931,6 @@ x-business-rules:
     condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
     affectedFields:
       - LOTACAO_ATUALQO
-  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-004
-    description: "DATA_INICIO is required"
-    severity: ERROR
-    condition: "DATA_INICIO IS NOT NULL"
-    affectedFields:
-      - DATA_INICIO
-  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-005
-    description: "TIPO_AFASTAMENTO is required"
-    severity: ERROR
-    condition: "TIPO_AFASTAMENTO IS NOT NULL"
-    affectedFields:
-      - TIPO_AFASTAMENTO
-  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-006
-    description: "FUNCIONARIO is required"
-    severity: ERROR
-    condition: "FUNCIONARIO IS NOT NULL"
-    affectedFields:
-      - FUNCIONARIO
-  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-007
-    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
-    severity: ERROR
-    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
-    affectedFields:
-      - FUNCIONARIO
   - id: FUNCIONARIOM_BR-SQL-TIPO_FUNCIONARIO-004
     description: "CATEGORIA_SIARHES is required"
     severity: ERROR
@@ -2363,6 +1955,30 @@ x-business-rules:
     condition: "TIPO IS NOT NULL"
     affectedFields:
       - TIPO
+  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-004
+    description: "DATA_INICIO is required"
+    severity: ERROR
+    condition: "DATA_INICIO IS NOT NULL"
+    affectedFields:
+      - DATA_INICIO
+  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-005
+    description: "TIPO_AFASTAMENTO is required"
+    severity: ERROR
+    condition: "TIPO_AFASTAMENTO IS NOT NULL"
+    affectedFields:
+      - TIPO_AFASTAMENTO
+  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-006
+    description: "FUNCIONARIO is required"
+    severity: ERROR
+    condition: "FUNCIONARIO IS NOT NULL"
+    affectedFields:
+      - FUNCIONARIO
+  - id: FUNCIONARIOM_BR-SQL-AFASTAMENTOS-007
+    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
+    severity: ERROR
+    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
+    affectedFields:
+      - FUNCIONARIO
   - id: FUNCIONARIOM_BR-SQL-CAPACITACAO-004
     description: "CURSO is required"
     severity: ERROR
@@ -2370,366 +1986,6 @@ x-business-rules:
     affectedFields:
       - CURSO
   - id: FUNCIONARIOM_BR-SQL-CAPACITACAO-006
-    description: "CURSO must reference an existing CURSO"
-    severity: ERROR
-    condition: "CURSO REFERENCES CURSO"
-    affectedFields:
-      - CURSO
-  - id: CURSOMB_JAVA_BR-Curso-abvCurso-NotNull
-    description: "abvCurso é obrigatório"
-    severity: WARN
-    condition: "abvCurso != null"
-    affectedFields:
-      - abvCurso
-  - id: CURSOMB_JAVA_BR-Curso-abvCurso-Size
-    description: "abvCurso comprimento máx 50"
-    severity: WARN
-    condition: "len(abvCurso) <= 50"
-    affectedFields:
-      - abvCurso
-  - id: CURSOMB_JAVA_BR-Curso-nomeCurso-NotNull
-    description: "nomeCurso é obrigatório"
-    severity: WARN
-    condition: "nomeCurso != null"
-    affectedFields:
-      - nomeCurso
-  - id: CURSOMB_JAVA_BR-Curso-nomeCurso-Size
-    description: "nomeCurso comprimento máx 400"
-    severity: WARN
-    condition: "len(nomeCurso) <= 400"
-    affectedFields:
-      - nomeCurso
-  - id: CURSOMB_JAVA_BR-Curso-ativo-NotNull
-    description: "ativo é obrigatório"
-    severity: WARN
-    condition: "ativo != null"
-    affectedFields:
-      - ativo
-  - id: CURSOMB_JAVA_BR-Curso-interesseCorporacao-NotNull
-    description: "interesseCorporacao é obrigatório"
-    severity: WARN
-    condition: "interesseCorporacao != null"
-    affectedFields:
-      - interesseCorporacao
-  - id: CURSOMB_JAVA_BR-SQL-CURSO-001
-    description: "DATA_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - DATA_ULT_ALTERACAO
-  - id: CURSOMB_JAVA_BR-SQL-CURSO-002
-    description: "USUARIO_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - USUARIO_ULT_ALTERACAO
-  - id: CURSOMB_JAVA_BR-SQL-CURSO-003
-    description: "VERSAO is required"
-    severity: ERROR
-    condition: "VERSAO IS NOT NULL"
-    affectedFields:
-      - VERSAO
-  - id: CURSOMB_JAVA_BR-SQL-CURSO-004
-    description: "ABV_CURSO is required"
-    severity: ERROR
-    condition: "ABV_CURSO IS NOT NULL"
-    affectedFields:
-      - ABV_CURSO
-  - id: CURSOMB_JAVA_BR-SQL-CURSO-005
-    description: "ATIVO is required"
-    severity: ERROR
-    condition: "ATIVO IS NOT NULL"
-    affectedFields:
-      - ATIVO
-  - id: CURSOMB_JAVA_BR-SQL-CURSO-006
-    description: "INTERESSE_CORPORACAO is required"
-    severity: ERROR
-    condition: "INTERESSE_CORPORACAO IS NOT NULL"
-    affectedFields:
-      - INTERESSE_CORPORACAO
-  - id: CURSOMB_JAVA_BR-SQL-CURSO-007
-    description: "NOME_CURSO is required"
-    severity: ERROR
-    condition: "NOME_CURSO IS NOT NULL"
-    affectedFields:
-      - NOME_CURSO
-  - id: CONSULTAFERI_BR-MesAnoFerias-mes-NotNull
-    description: "mes é obrigatório"
-    severity: WARN
-    condition: "mes != null"
-    affectedFields:
-      - mes
-  - id: CONSULTAFERI_BR-MesAnoFerias-ano-NotNull
-    description: "ano é obrigatório"
-    severity: WARN
-    condition: "ano != null"
-    affectedFields:
-      - ano
-  - id: PROMOCAOMB_J_BR-Funcionario-nome-NotNull
-    description: "nome é obrigatório"
-    severity: WARN
-    condition: "nome != null"
-    affectedFields:
-      - nome
-  - id: PROMOCAOMB_J_BR-Funcionario-nome-Size
-    description: "nome comprimento máx 100"
-    severity: WARN
-    condition: "len(nome) <= 100"
-    affectedFields:
-      - nome
-  - id: PROMOCAOMB_J_BR-Funcionario-nomeGuerra-Size
-    description: "nomeGuerra comprimento máx 100"
-    severity: WARN
-    condition: "len(nomeGuerra) <= 100"
-    affectedFields:
-      - nomeGuerra
-  - id: PROMOCAOMB_J_BR-Funcionario-numeroFuncional-NotNull
-    description: "numeroFuncional é obrigatório"
-    severity: WARN
-    condition: "numeroFuncional != null"
-    affectedFields:
-      - numeroFuncional
-  - id: PROMOCAOMB_J_BR-Funcionario-numeroFuncional-Size
-    description: "numeroFuncional comprimento máx 20"
-    severity: WARN
-    condition: "len(numeroFuncional) <= 20"
-    affectedFields:
-      - numeroFuncional
-  - id: PROMOCAOMB_J_BR-Funcionario-cpf-Size
-    description: "cpf comprimento máx 14"
-    severity: WARN
-    condition: "len(cpf) <= 14"
-    affectedFields:
-      - cpf
-  - id: PROMOCAOMB_J_BR-Funcionario-fone-Size
-    description: "fone comprimento máx 100"
-    severity: WARN
-    condition: "len(fone) <= 100"
-    affectedFields:
-      - fone
-  - id: PROMOCAOMB_J_BR-Funcionario-celular-Size
-    description: "celular comprimento máx 100"
-    severity: WARN
-    condition: "len(celular) <= 100"
-    affectedFields:
-      - celular
-  - id: PROMOCAOMB_J_BR-Funcionario-email-Size
-    description: "email comprimento máx 200"
-    severity: WARN
-    condition: "len(email) <= 200"
-    affectedFields:
-      - email
-  - id: PROMOCAOMB_J_BR-Funcionario-cidadeNascimento-Size
-    description: "cidadeNascimento comprimento máx 50"
-    severity: WARN
-    condition: "len(cidadeNascimento) <= 50"
-    affectedFields:
-      - cidadeNascimento
-  - id: PROMOCAOMB_J_BR-Funcionario-paisNascimento-Size
-    description: "paisNascimento comprimento máx 50"
-    severity: WARN
-    condition: "len(paisNascimento) <= 50"
-    affectedFields:
-      - paisNascimento
-  - id: PROMOCAOMB_J_BR-Funcionario-nacionalidade-Size
-    description: "nacionalidade comprimento máx 50"
-    severity: WARN
-    condition: "len(nacionalidade) <= 50"
-    affectedFields:
-      - nacionalidade
-  - id: PROMOCAOMB_J_BR-Funcionario-nomePai-Size
-    description: "nomePai comprimento máx 200"
-    severity: WARN
-    condition: "len(nomePai) <= 200"
-    affectedFields:
-      - nomePai
-  - id: PROMOCAOMB_J_BR-Funcionario-nomeMae-Size
-    description: "nomeMae comprimento máx 200"
-    severity: WARN
-    condition: "len(nomeMae) <= 200"
-    affectedFields:
-      - nomeMae
-  - id: PROMOCAOMB_J_BR-Funcionario-prontuarioHPM-Size
-    description: "prontuarioHPM comprimento máx 20"
-    severity: WARN
-    condition: "len(prontuarioHPM) <= 20"
-    affectedFields:
-      - prontuarioHPM
-  - id: PROMOCAOMB_J_BR-Funcionario-tipoCadastro-Size
-    description: "tipoCadastro comprimento máx 50"
-    severity: WARN
-    condition: "len(tipoCadastro) <= 50"
-    affectedFields:
-      - tipoCadastro
-  - id: PROMOCAOMB_J_BR-Funcionario-corOlhos-Size
-    description: "corOlhos comprimento máx 50"
-    severity: WARN
-    condition: "len(corOlhos) <= 50"
-    affectedFields:
-      - corOlhos
-  - id: PROMOCAOMB_J_BR-Funcionario-corCabelos-Size
-    description: "corCabelos comprimento máx 50"
-    severity: WARN
-    condition: "len(corCabelos) <= 50"
-    affectedFields:
-      - corCabelos
-  - id: PROMOCAOMB_J_BR-Funcionario-sinaisParticulares-Size
-    description: "sinaisParticulares comprimento máx 50"
-    severity: WARN
-    condition: "len(sinaisParticulares) <= 50"
-    affectedFields:
-      - sinaisParticulares
-  - id: PROMOCAOMB_J_BR-Funcionario-altura-Size
-    description: "altura comprimento máx 10"
-    severity: WARN
-    condition: "len(altura) <= 10"
-    affectedFields:
-      - altura
-  - id: PROMOCAOMB_J_BR-Funcionario-UNIQUE-naoDeveExistirNumeroFuncionalDuplicado
-    description: "numeroFuncional não pode ser duplicado"
-    severity: WARN
-    condition: "count(numeroFuncional) == 0"
-    affectedFields:
-      - numeroFuncional
-  - id: PROMOCAOMB_J_BR-Funcionario-UNIQUE-naoDeveExistircpfDuplicado
-    description: "cpf não pode ser duplicado"
-    severity: WARN
-    condition: "count(cpf) == 0"
-    affectedFields:
-      - cpf
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-001
-    description: "DATA_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - DATA_ULT_ALTERACAO
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-002
-    description: "USUARIO_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - USUARIO_ULT_ALTERACAO
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-003
-    description: "VERSAO is required"
-    severity: ERROR
-    condition: "VERSAO IS NOT NULL"
-    affectedFields:
-      - VERSAO
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-004
-    description: "NOME is required"
-    severity: ERROR
-    condition: "NOME IS NOT NULL"
-    affectedFields:
-      - NOME
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-005
-    description: "NUMERO_FUNCIONAL is required"
-    severity: ERROR
-    condition: "NUMERO_FUNCIONAL IS NOT NULL"
-    affectedFields:
-      - NUMERO_FUNCIONAL
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-006
-    description: "ID_ASSINATURA must reference an existing ASSINATURA"
-    severity: ERROR
-    condition: "ID_ASSINATURA REFERENCES ASSINATURA"
-    affectedFields:
-      - ID_ASSINATURA
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-007
-    description: "ID_IMPRESSAO_DIGITAL must reference an existing IMPRESSAO_DIGITAL"
-    severity: ERROR
-    condition: "ID_IMPRESSAO_DIGITAL REFERENCES IMPRESSAO_DIGITAL"
-    affectedFields:
-      - ID_IMPRESSAO_DIGITAL
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-008
-    description: "LOCAL_ADIDO must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOCAL_ADIDO REFERENCES LOCAL"
-    affectedFields:
-      - LOCAL_ADIDO
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-009
-    description: "POSTO_GRADUACAO must reference an existing POSTO_GRADUACAO"
-    severity: ERROR
-    condition: "POSTO_GRADUACAO REFERENCES POSTO_GRADUACAO"
-    affectedFields:
-      - POSTO_GRADUACAO
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-010
-    description: "ID_FOTO must reference an existing FOTO"
-    severity: ERROR
-    condition: "ID_FOTO REFERENCES FOTO"
-    affectedFields:
-      - ID_FOTO
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-011
-    description: "LOTACAO_ATUAL must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOTACAO_ATUAL REFERENCES LOCAL"
-    affectedFields:
-      - LOTACAO_ATUAL
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-012
-    description: "TIPO_FUNCIONARIO must reference an existing TIPO_FUNCIONARIO"
-    severity: ERROR
-    condition: "TIPO_FUNCIONARIO REFERENCES TIPO_FUNCIONARIO"
-    affectedFields:
-      - TIPO_FUNCIONARIO
-  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-013
-    description: "LOTACAO_ATUALQO must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
-    affectedFields:
-      - LOTACAO_ATUALQO
-  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-004
-    description: "DATA_INICIO is required"
-    severity: ERROR
-    condition: "DATA_INICIO IS NOT NULL"
-    affectedFields:
-      - DATA_INICIO
-  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-005
-    description: "TIPO_AFASTAMENTO is required"
-    severity: ERROR
-    condition: "TIPO_AFASTAMENTO IS NOT NULL"
-    affectedFields:
-      - TIPO_AFASTAMENTO
-  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-006
-    description: "FUNCIONARIO is required"
-    severity: ERROR
-    condition: "FUNCIONARIO IS NOT NULL"
-    affectedFields:
-      - FUNCIONARIO
-  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-007
-    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
-    severity: ERROR
-    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
-    affectedFields:
-      - FUNCIONARIO
-  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-004
-    description: "CATEGORIA_SIARHES is required"
-    severity: ERROR
-    condition: "CATEGORIA_SIARHES IS NOT NULL"
-    affectedFields:
-      - CATEGORIA_SIARHES
-  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-005
-    description: "IGNORAR_IMPORTACAO is required"
-    severity: ERROR
-    condition: "IGNORAR_IMPORTACAO IS NOT NULL"
-    affectedFields:
-      - IGNORAR_IMPORTACAO
-  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-006
-    description: "MILITAR is required"
-    severity: ERROR
-    condition: "MILITAR IS NOT NULL"
-    affectedFields:
-      - MILITAR
-  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-007
-    description: "TIPO is required"
-    severity: ERROR
-    condition: "TIPO IS NOT NULL"
-    affectedFields:
-      - TIPO
-  - id: PROMOCAOMB_J_BR-SQL-CAPACITACAO-004
-    description: "CURSO is required"
-    severity: ERROR
-    condition: "CURSO IS NOT NULL"
-    affectedFields:
-      - CURSO
-  - id: PROMOCAOMB_J_BR-SQL-CAPACITACAO-006
     description: "CURSO must reference an existing CURSO"
     severity: ERROR
     condition: "CURSO REFERENCES CURSO"
@@ -2945,6 +2201,84 @@ x-business-rules:
     condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
     affectedFields:
       - LOTACAO_ATUALQO
+  - id: TIPOFUNCIONA_BR-TipoFuncionario-tipo-NotNull
+    description: "tipo é obrigatório"
+    severity: WARN
+    condition: "tipo != null"
+    affectedFields:
+      - tipo
+  - id: TIPOFUNCIONA_BR-TipoFuncionario-tipo-Size
+    description: "tipo comprimento máx 255"
+    severity: WARN
+    condition: "len(tipo) <= 255"
+    affectedFields:
+      - tipo
+  - id: TIPOFUNCIONA_BR-TipoFuncionario-categoriaSiarhes-NotNull
+    description: "categoriaSiarhes é obrigatório"
+    severity: WARN
+    condition: "categoriaSiarhes != null"
+    affectedFields:
+      - categoriaSiarhes
+  - id: TIPOFUNCIONA_BR-TipoFuncionario-categoriaSiarhes-Size
+    description: "categoriaSiarhes comprimento máx 255"
+    severity: WARN
+    condition: "len(categoriaSiarhes) <= 255"
+    affectedFields:
+      - categoriaSiarhes
+  - id: TIPOFUNCIONA_BR-TipoFuncionario-militar-NotNull
+    description: "militar é obrigatório"
+    severity: WARN
+    condition: "militar != null"
+    affectedFields:
+      - militar
+  - id: TIPOFUNCIONA_BR-TipoFuncionario-ignorarImportacao-NotNull
+    description: "ignorarImportacao é obrigatório"
+    severity: WARN
+    condition: "ignorarImportacao != null"
+    affectedFields:
+      - ignorarImportacao
+  - id: TIPOFUNCIONA_BR-SQL-TIPO_FUNCIONARIO-001
+    description: "DATA_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - DATA_ULT_ALTERACAO
+  - id: TIPOFUNCIONA_BR-SQL-TIPO_FUNCIONARIO-002
+    description: "USUARIO_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - USUARIO_ULT_ALTERACAO
+  - id: TIPOFUNCIONA_BR-SQL-TIPO_FUNCIONARIO-003
+    description: "VERSAO is required"
+    severity: ERROR
+    condition: "VERSAO IS NOT NULL"
+    affectedFields:
+      - VERSAO
+  - id: TIPOFUNCIONA_BR-SQL-TIPO_FUNCIONARIO-004
+    description: "CATEGORIA_SIARHES is required"
+    severity: ERROR
+    condition: "CATEGORIA_SIARHES IS NOT NULL"
+    affectedFields:
+      - CATEGORIA_SIARHES
+  - id: TIPOFUNCIONA_BR-SQL-TIPO_FUNCIONARIO-005
+    description: "IGNORAR_IMPORTACAO is required"
+    severity: ERROR
+    condition: "IGNORAR_IMPORTACAO IS NOT NULL"
+    affectedFields:
+      - IGNORAR_IMPORTACAO
+  - id: TIPOFUNCIONA_BR-SQL-TIPO_FUNCIONARIO-006
+    description: "MILITAR is required"
+    severity: ERROR
+    condition: "MILITAR IS NOT NULL"
+    affectedFields:
+      - MILITAR
+  - id: TIPOFUNCIONA_BR-SQL-TIPO_FUNCIONARIO-007
+    description: "TIPO is required"
+    severity: ERROR
+    condition: "TIPO IS NOT NULL"
+    affectedFields:
+      - TIPO
   - id: IDENTIDADEFU_BR-Funcionario-nome-NotNull
     description: "nome é obrigatório"
     severity: WARN
@@ -3389,6 +2723,276 @@ x-business-rules:
     condition: "TIPO IS NOT NULL"
     affectedFields:
       - TIPO
+  - id: PROMOCAOMB_J_BR-Funcionario-nome-NotNull
+    description: "nome é obrigatório"
+    severity: WARN
+    condition: "nome != null"
+    affectedFields:
+      - nome
+  - id: PROMOCAOMB_J_BR-Funcionario-nome-Size
+    description: "nome comprimento máx 100"
+    severity: WARN
+    condition: "len(nome) <= 100"
+    affectedFields:
+      - nome
+  - id: PROMOCAOMB_J_BR-Funcionario-nomeGuerra-Size
+    description: "nomeGuerra comprimento máx 100"
+    severity: WARN
+    condition: "len(nomeGuerra) <= 100"
+    affectedFields:
+      - nomeGuerra
+  - id: PROMOCAOMB_J_BR-Funcionario-numeroFuncional-NotNull
+    description: "numeroFuncional é obrigatório"
+    severity: WARN
+    condition: "numeroFuncional != null"
+    affectedFields:
+      - numeroFuncional
+  - id: PROMOCAOMB_J_BR-Funcionario-numeroFuncional-Size
+    description: "numeroFuncional comprimento máx 20"
+    severity: WARN
+    condition: "len(numeroFuncional) <= 20"
+    affectedFields:
+      - numeroFuncional
+  - id: PROMOCAOMB_J_BR-Funcionario-cpf-Size
+    description: "cpf comprimento máx 14"
+    severity: WARN
+    condition: "len(cpf) <= 14"
+    affectedFields:
+      - cpf
+  - id: PROMOCAOMB_J_BR-Funcionario-fone-Size
+    description: "fone comprimento máx 100"
+    severity: WARN
+    condition: "len(fone) <= 100"
+    affectedFields:
+      - fone
+  - id: PROMOCAOMB_J_BR-Funcionario-celular-Size
+    description: "celular comprimento máx 100"
+    severity: WARN
+    condition: "len(celular) <= 100"
+    affectedFields:
+      - celular
+  - id: PROMOCAOMB_J_BR-Funcionario-email-Size
+    description: "email comprimento máx 200"
+    severity: WARN
+    condition: "len(email) <= 200"
+    affectedFields:
+      - email
+  - id: PROMOCAOMB_J_BR-Funcionario-cidadeNascimento-Size
+    description: "cidadeNascimento comprimento máx 50"
+    severity: WARN
+    condition: "len(cidadeNascimento) <= 50"
+    affectedFields:
+      - cidadeNascimento
+  - id: PROMOCAOMB_J_BR-Funcionario-paisNascimento-Size
+    description: "paisNascimento comprimento máx 50"
+    severity: WARN
+    condition: "len(paisNascimento) <= 50"
+    affectedFields:
+      - paisNascimento
+  - id: PROMOCAOMB_J_BR-Funcionario-nacionalidade-Size
+    description: "nacionalidade comprimento máx 50"
+    severity: WARN
+    condition: "len(nacionalidade) <= 50"
+    affectedFields:
+      - nacionalidade
+  - id: PROMOCAOMB_J_BR-Funcionario-nomePai-Size
+    description: "nomePai comprimento máx 200"
+    severity: WARN
+    condition: "len(nomePai) <= 200"
+    affectedFields:
+      - nomePai
+  - id: PROMOCAOMB_J_BR-Funcionario-nomeMae-Size
+    description: "nomeMae comprimento máx 200"
+    severity: WARN
+    condition: "len(nomeMae) <= 200"
+    affectedFields:
+      - nomeMae
+  - id: PROMOCAOMB_J_BR-Funcionario-prontuarioHPM-Size
+    description: "prontuarioHPM comprimento máx 20"
+    severity: WARN
+    condition: "len(prontuarioHPM) <= 20"
+    affectedFields:
+      - prontuarioHPM
+  - id: PROMOCAOMB_J_BR-Funcionario-tipoCadastro-Size
+    description: "tipoCadastro comprimento máx 50"
+    severity: WARN
+    condition: "len(tipoCadastro) <= 50"
+    affectedFields:
+      - tipoCadastro
+  - id: PROMOCAOMB_J_BR-Funcionario-corOlhos-Size
+    description: "corOlhos comprimento máx 50"
+    severity: WARN
+    condition: "len(corOlhos) <= 50"
+    affectedFields:
+      - corOlhos
+  - id: PROMOCAOMB_J_BR-Funcionario-corCabelos-Size
+    description: "corCabelos comprimento máx 50"
+    severity: WARN
+    condition: "len(corCabelos) <= 50"
+    affectedFields:
+      - corCabelos
+  - id: PROMOCAOMB_J_BR-Funcionario-sinaisParticulares-Size
+    description: "sinaisParticulares comprimento máx 50"
+    severity: WARN
+    condition: "len(sinaisParticulares) <= 50"
+    affectedFields:
+      - sinaisParticulares
+  - id: PROMOCAOMB_J_BR-Funcionario-altura-Size
+    description: "altura comprimento máx 10"
+    severity: WARN
+    condition: "len(altura) <= 10"
+    affectedFields:
+      - altura
+  - id: PROMOCAOMB_J_BR-Funcionario-UNIQUE-naoDeveExistirNumeroFuncionalDuplicado
+    description: "numeroFuncional não pode ser duplicado"
+    severity: WARN
+    condition: "count(numeroFuncional) == 0"
+    affectedFields:
+      - numeroFuncional
+  - id: PROMOCAOMB_J_BR-Funcionario-UNIQUE-naoDeveExistircpfDuplicado
+    description: "cpf não pode ser duplicado"
+    severity: WARN
+    condition: "count(cpf) == 0"
+    affectedFields:
+      - cpf
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-001
+    description: "DATA_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - DATA_ULT_ALTERACAO
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-002
+    description: "USUARIO_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - USUARIO_ULT_ALTERACAO
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-003
+    description: "VERSAO is required"
+    severity: ERROR
+    condition: "VERSAO IS NOT NULL"
+    affectedFields:
+      - VERSAO
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-004
+    description: "NOME is required"
+    severity: ERROR
+    condition: "NOME IS NOT NULL"
+    affectedFields:
+      - NOME
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-005
+    description: "NUMERO_FUNCIONAL is required"
+    severity: ERROR
+    condition: "NUMERO_FUNCIONAL IS NOT NULL"
+    affectedFields:
+      - NUMERO_FUNCIONAL
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-006
+    description: "ID_ASSINATURA must reference an existing ASSINATURA"
+    severity: ERROR
+    condition: "ID_ASSINATURA REFERENCES ASSINATURA"
+    affectedFields:
+      - ID_ASSINATURA
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-007
+    description: "ID_IMPRESSAO_DIGITAL must reference an existing IMPRESSAO_DIGITAL"
+    severity: ERROR
+    condition: "ID_IMPRESSAO_DIGITAL REFERENCES IMPRESSAO_DIGITAL"
+    affectedFields:
+      - ID_IMPRESSAO_DIGITAL
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-008
+    description: "LOCAL_ADIDO must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOCAL_ADIDO REFERENCES LOCAL"
+    affectedFields:
+      - LOCAL_ADIDO
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-009
+    description: "POSTO_GRADUACAO must reference an existing POSTO_GRADUACAO"
+    severity: ERROR
+    condition: "POSTO_GRADUACAO REFERENCES POSTO_GRADUACAO"
+    affectedFields:
+      - POSTO_GRADUACAO
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-010
+    description: "ID_FOTO must reference an existing FOTO"
+    severity: ERROR
+    condition: "ID_FOTO REFERENCES FOTO"
+    affectedFields:
+      - ID_FOTO
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-011
+    description: "LOTACAO_ATUAL must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOTACAO_ATUAL REFERENCES LOCAL"
+    affectedFields:
+      - LOTACAO_ATUAL
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-012
+    description: "TIPO_FUNCIONARIO must reference an existing TIPO_FUNCIONARIO"
+    severity: ERROR
+    condition: "TIPO_FUNCIONARIO REFERENCES TIPO_FUNCIONARIO"
+    affectedFields:
+      - TIPO_FUNCIONARIO
+  - id: PROMOCAOMB_J_BR-SQL-FUNCIONARIO-013
+    description: "LOTACAO_ATUALQO must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
+    affectedFields:
+      - LOTACAO_ATUALQO
+  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-004
+    description: "CATEGORIA_SIARHES is required"
+    severity: ERROR
+    condition: "CATEGORIA_SIARHES IS NOT NULL"
+    affectedFields:
+      - CATEGORIA_SIARHES
+  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-005
+    description: "IGNORAR_IMPORTACAO is required"
+    severity: ERROR
+    condition: "IGNORAR_IMPORTACAO IS NOT NULL"
+    affectedFields:
+      - IGNORAR_IMPORTACAO
+  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-006
+    description: "MILITAR is required"
+    severity: ERROR
+    condition: "MILITAR IS NOT NULL"
+    affectedFields:
+      - MILITAR
+  - id: PROMOCAOMB_J_BR-SQL-TIPO_FUNCIONARIO-007
+    description: "TIPO is required"
+    severity: ERROR
+    condition: "TIPO IS NOT NULL"
+    affectedFields:
+      - TIPO
+  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-004
+    description: "DATA_INICIO is required"
+    severity: ERROR
+    condition: "DATA_INICIO IS NOT NULL"
+    affectedFields:
+      - DATA_INICIO
+  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-005
+    description: "TIPO_AFASTAMENTO is required"
+    severity: ERROR
+    condition: "TIPO_AFASTAMENTO IS NOT NULL"
+    affectedFields:
+      - TIPO_AFASTAMENTO
+  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-006
+    description: "FUNCIONARIO is required"
+    severity: ERROR
+    condition: "FUNCIONARIO IS NOT NULL"
+    affectedFields:
+      - FUNCIONARIO
+  - id: PROMOCAOMB_J_BR-SQL-AFASTAMENTOS-007
+    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
+    severity: ERROR
+    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
+    affectedFields:
+      - FUNCIONARIO
+  - id: PROMOCAOMB_J_BR-SQL-CAPACITACAO-004
+    description: "CURSO is required"
+    severity: ERROR
+    condition: "CURSO IS NOT NULL"
+    affectedFields:
+      - CURSO
+  - id: PROMOCAOMB_J_BR-SQL-CAPACITACAO-006
+    description: "CURSO must reference an existing CURSO"
+    severity: ERROR
+    condition: "CURSO REFERENCES CURSO"
+    affectedFields:
+      - CURSO
   - id: FUNCIONARIOV_BR-Funcionario-nome-NotNull
     description: "nome é obrigatório"
     severity: WARN
@@ -3599,6 +3203,66 @@ x-business-rules:
     condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
     affectedFields:
       - LOTACAO_ATUALQO
+  - id: AUDITORIADET_BR-AuditoriaDetalhadaFuncionario-tabela-NotNull
+    description: "tabela é obrigatório"
+    severity: WARN
+    condition: "tabela != null"
+    affectedFields:
+      - tabela
+  - id: AUDITORIADET_BR-AuditoriaDetalhadaFuncionario-tabela-Size
+    description: "tabela comprimento máx 50"
+    severity: WARN
+    condition: "len(tabela) <= 50"
+    affectedFields:
+      - tabela
+  - id: AUDITORIADET_BR-AuditoriaDetalhadaFuncionario-data-NotNull
+    description: "data é obrigatório"
+    severity: WARN
+    condition: "data != null"
+    affectedFields:
+      - data
+  - id: AUDITORIADET_BR-AuditoriaDetalhadaFuncionario-nfFuncionario-Size
+    description: "nfFuncionario comprimento máx 20"
+    severity: WARN
+    condition: "len(nfFuncionario) <= 20"
+    affectedFields:
+      - nfFuncionario
+  - id: AUDITORIADET_BR-AuditoriaDetalhadaFuncionario-observacao-Size
+    description: "observacao comprimento máx 2048"
+    severity: WARN
+    condition: "len(observacao) <= 2048"
+    affectedFields:
+      - observacao
+  - id: AUDITORIADET_BR-SQL-AUDITORIA_DET_FUNCIONARIO-001
+    description: "DATA_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - DATA_ULT_ALTERACAO
+  - id: AUDITORIADET_BR-SQL-AUDITORIA_DET_FUNCIONARIO-002
+    description: "USUARIO_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - USUARIO_ULT_ALTERACAO
+  - id: AUDITORIADET_BR-SQL-AUDITORIA_DET_FUNCIONARIO-003
+    description: "VERSAO is required"
+    severity: ERROR
+    condition: "VERSAO IS NOT NULL"
+    affectedFields:
+      - VERSAO
+  - id: AUDITORIADET_BR-SQL-AUDITORIA_DET_FUNCIONARIO-004
+    description: "DATA is required"
+    severity: ERROR
+    condition: "DATA IS NOT NULL"
+    affectedFields:
+      - DATA
+  - id: AUDITORIADET_BR-SQL-AUDITORIA_DET_FUNCIONARIO-005
+    description: "TABELA is required"
+    severity: ERROR
+    condition: "TABELA IS NOT NULL"
+    affectedFields:
+      - TABELA
   - id: AFASTAMENTOS_BR-Funcionario-nome-NotNull
     description: "nome é obrigatório"
     severity: WARN
@@ -3809,30 +3473,6 @@ x-business-rules:
     condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
     affectedFields:
       - LOTACAO_ATUALQO
-  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-004
-    description: "DATA_INICIO is required"
-    severity: ERROR
-    condition: "DATA_INICIO IS NOT NULL"
-    affectedFields:
-      - DATA_INICIO
-  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-005
-    description: "TIPO_AFASTAMENTO is required"
-    severity: ERROR
-    condition: "TIPO_AFASTAMENTO IS NOT NULL"
-    affectedFields:
-      - TIPO_AFASTAMENTO
-  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-006
-    description: "FUNCIONARIO is required"
-    severity: ERROR
-    condition: "FUNCIONARIO IS NOT NULL"
-    affectedFields:
-      - FUNCIONARIO
-  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-007
-    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
-    severity: ERROR
-    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
-    affectedFields:
-      - FUNCIONARIO
   - id: AFASTAMENTOS_BR-SQL-TIPO_FUNCIONARIO-004
     description: "CATEGORIA_SIARHES is required"
     severity: ERROR
@@ -3857,6 +3497,30 @@ x-business-rules:
     condition: "TIPO IS NOT NULL"
     affectedFields:
       - TIPO
+  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-004
+    description: "DATA_INICIO is required"
+    severity: ERROR
+    condition: "DATA_INICIO IS NOT NULL"
+    affectedFields:
+      - DATA_INICIO
+  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-005
+    description: "TIPO_AFASTAMENTO is required"
+    severity: ERROR
+    condition: "TIPO_AFASTAMENTO IS NOT NULL"
+    affectedFields:
+      - TIPO_AFASTAMENTO
+  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-006
+    description: "FUNCIONARIO is required"
+    severity: ERROR
+    condition: "FUNCIONARIO IS NOT NULL"
+    affectedFields:
+      - FUNCIONARIO
+  - id: AFASTAMENTOS_BR-SQL-AFASTAMENTOS-007
+    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
+    severity: ERROR
+    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
+    affectedFields:
+      - FUNCIONARIO
   - id: AFASTAMENTOS_BR-SQL-CAPACITACAO-004
     description: "CURSO is required"
     severity: ERROR
@@ -3869,290 +3533,6 @@ x-business-rules:
     condition: "CURSO REFERENCES CURSO"
     affectedFields:
       - CURSO
-  - id: MESANOFERIAS_BR-MesAnoFerias-mes-NotNull
-    description: "mes é obrigatório"
-    severity: WARN
-    condition: "mes != null"
-    affectedFields:
-      - mes
-  - id: MESANOFERIAS_BR-MesAnoFerias-ano-NotNull
-    description: "ano é obrigatório"
-    severity: WARN
-    condition: "ano != null"
-    affectedFields:
-      - ano
-  - id: MESANOFERIAS_BR-MesAnoFerias-IF-1
-    description: "Regra condicional a interpretar: getFacade().testeDuplicidadeMesAnoFerias(getContext(), (MesAnoFerias) this.entityPlc)"
-    severity: WARN
-    condition: "getFacade().testeDuplicidadeMesAnoFerias(getContext(), (MesAnoFerias) this.entityPlc)"
-  - id: MESANOFERIAS_BR-MesAnoFerias-IF-2
-    description: "Regra condicional a interpretar: retorno != null && !retorno.isEmpty()"
-    severity: WARN
-    condition: "retorno != null && !retorno.isEmpty()"
-  - id: MESANOFERIAS_BR-SQL-MES_FERIAS-001
-    description: "DATA_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - DATA_ULT_ALTERACAO
-  - id: MESANOFERIAS_BR-SQL-MES_FERIAS-002
-    description: "USUARIO_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - USUARIO_ULT_ALTERACAO
-  - id: MESANOFERIAS_BR-SQL-MES_FERIAS-003
-    description: "VERSAO is required"
-    severity: ERROR
-    condition: "VERSAO IS NOT NULL"
-    affectedFields:
-      - VERSAO
-  - id: MESANOFERIAS_BR-SQL-MES_FERIAS-004
-    description: "ANO is required"
-    severity: ERROR
-    condition: "ANO IS NOT NULL"
-    affectedFields:
-      - ANO
-  - id: MESANOFERIAS_BR-SQL-MES_FERIAS-005
-    description: "MES is required"
-    severity: ERROR
-    condition: "MES IS NOT NULL"
-    affectedFields:
-      - MES
-  - id: CAPACITACAOM_BR-Funcionario-nome-NotNull
-    description: "nome é obrigatório"
-    severity: WARN
-    condition: "nome != null"
-    affectedFields:
-      - nome
-  - id: CAPACITACAOM_BR-Funcionario-nome-Size
-    description: "nome comprimento máx 100"
-    severity: WARN
-    condition: "len(nome) <= 100"
-    affectedFields:
-      - nome
-  - id: CAPACITACAOM_BR-Funcionario-nomeGuerra-Size
-    description: "nomeGuerra comprimento máx 100"
-    severity: WARN
-    condition: "len(nomeGuerra) <= 100"
-    affectedFields:
-      - nomeGuerra
-  - id: CAPACITACAOM_BR-Funcionario-numeroFuncional-NotNull
-    description: "numeroFuncional é obrigatório"
-    severity: WARN
-    condition: "numeroFuncional != null"
-    affectedFields:
-      - numeroFuncional
-  - id: CAPACITACAOM_BR-Funcionario-numeroFuncional-Size
-    description: "numeroFuncional comprimento máx 20"
-    severity: WARN
-    condition: "len(numeroFuncional) <= 20"
-    affectedFields:
-      - numeroFuncional
-  - id: CAPACITACAOM_BR-Funcionario-cpf-Size
-    description: "cpf comprimento máx 14"
-    severity: WARN
-    condition: "len(cpf) <= 14"
-    affectedFields:
-      - cpf
-  - id: CAPACITACAOM_BR-Funcionario-fone-Size
-    description: "fone comprimento máx 100"
-    severity: WARN
-    condition: "len(fone) <= 100"
-    affectedFields:
-      - fone
-  - id: CAPACITACAOM_BR-Funcionario-celular-Size
-    description: "celular comprimento máx 100"
-    severity: WARN
-    condition: "len(celular) <= 100"
-    affectedFields:
-      - celular
-  - id: CAPACITACAOM_BR-Funcionario-email-Size
-    description: "email comprimento máx 200"
-    severity: WARN
-    condition: "len(email) <= 200"
-    affectedFields:
-      - email
-  - id: CAPACITACAOM_BR-Funcionario-cidadeNascimento-Size
-    description: "cidadeNascimento comprimento máx 50"
-    severity: WARN
-    condition: "len(cidadeNascimento) <= 50"
-    affectedFields:
-      - cidadeNascimento
-  - id: CAPACITACAOM_BR-Funcionario-paisNascimento-Size
-    description: "paisNascimento comprimento máx 50"
-    severity: WARN
-    condition: "len(paisNascimento) <= 50"
-    affectedFields:
-      - paisNascimento
-  - id: CAPACITACAOM_BR-Funcionario-nacionalidade-Size
-    description: "nacionalidade comprimento máx 50"
-    severity: WARN
-    condition: "len(nacionalidade) <= 50"
-    affectedFields:
-      - nacionalidade
-  - id: CAPACITACAOM_BR-Funcionario-nomePai-Size
-    description: "nomePai comprimento máx 200"
-    severity: WARN
-    condition: "len(nomePai) <= 200"
-    affectedFields:
-      - nomePai
-  - id: CAPACITACAOM_BR-Funcionario-nomeMae-Size
-    description: "nomeMae comprimento máx 200"
-    severity: WARN
-    condition: "len(nomeMae) <= 200"
-    affectedFields:
-      - nomeMae
-  - id: CAPACITACAOM_BR-Funcionario-prontuarioHPM-Size
-    description: "prontuarioHPM comprimento máx 20"
-    severity: WARN
-    condition: "len(prontuarioHPM) <= 20"
-    affectedFields:
-      - prontuarioHPM
-  - id: CAPACITACAOM_BR-Funcionario-tipoCadastro-Size
-    description: "tipoCadastro comprimento máx 50"
-    severity: WARN
-    condition: "len(tipoCadastro) <= 50"
-    affectedFields:
-      - tipoCadastro
-  - id: CAPACITACAOM_BR-Funcionario-corOlhos-Size
-    description: "corOlhos comprimento máx 50"
-    severity: WARN
-    condition: "len(corOlhos) <= 50"
-    affectedFields:
-      - corOlhos
-  - id: CAPACITACAOM_BR-Funcionario-corCabelos-Size
-    description: "corCabelos comprimento máx 50"
-    severity: WARN
-    condition: "len(corCabelos) <= 50"
-    affectedFields:
-      - corCabelos
-  - id: CAPACITACAOM_BR-Funcionario-sinaisParticulares-Size
-    description: "sinaisParticulares comprimento máx 50"
-    severity: WARN
-    condition: "len(sinaisParticulares) <= 50"
-    affectedFields:
-      - sinaisParticulares
-  - id: CAPACITACAOM_BR-Funcionario-altura-Size
-    description: "altura comprimento máx 10"
-    severity: WARN
-    condition: "len(altura) <= 10"
-    affectedFields:
-      - altura
-  - id: CAPACITACAOM_BR-Funcionario-UNIQUE-naoDeveExistirNumeroFuncionalDuplicado
-    description: "numeroFuncional não pode ser duplicado"
-    severity: WARN
-    condition: "count(numeroFuncional) == 0"
-    affectedFields:
-      - numeroFuncional
-  - id: CAPACITACAOM_BR-Funcionario-UNIQUE-naoDeveExistircpfDuplicado
-    description: "cpf não pode ser duplicado"
-    severity: WARN
-    condition: "count(cpf) == 0"
-    affectedFields:
-      - cpf
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-001
-    description: "DATA_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - DATA_ULT_ALTERACAO
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-002
-    description: "USUARIO_ULT_ALTERACAO is required"
-    severity: ERROR
-    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
-    affectedFields:
-      - USUARIO_ULT_ALTERACAO
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-003
-    description: "VERSAO is required"
-    severity: ERROR
-    condition: "VERSAO IS NOT NULL"
-    affectedFields:
-      - VERSAO
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-004
-    description: "NOME is required"
-    severity: ERROR
-    condition: "NOME IS NOT NULL"
-    affectedFields:
-      - NOME
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-005
-    description: "NUMERO_FUNCIONAL is required"
-    severity: ERROR
-    condition: "NUMERO_FUNCIONAL IS NOT NULL"
-    affectedFields:
-      - NUMERO_FUNCIONAL
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-006
-    description: "ID_ASSINATURA must reference an existing ASSINATURA"
-    severity: ERROR
-    condition: "ID_ASSINATURA REFERENCES ASSINATURA"
-    affectedFields:
-      - ID_ASSINATURA
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-007
-    description: "ID_IMPRESSAO_DIGITAL must reference an existing IMPRESSAO_DIGITAL"
-    severity: ERROR
-    condition: "ID_IMPRESSAO_DIGITAL REFERENCES IMPRESSAO_DIGITAL"
-    affectedFields:
-      - ID_IMPRESSAO_DIGITAL
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-008
-    description: "LOCAL_ADIDO must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOCAL_ADIDO REFERENCES LOCAL"
-    affectedFields:
-      - LOCAL_ADIDO
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-009
-    description: "POSTO_GRADUACAO must reference an existing POSTO_GRADUACAO"
-    severity: ERROR
-    condition: "POSTO_GRADUACAO REFERENCES POSTO_GRADUACAO"
-    affectedFields:
-      - POSTO_GRADUACAO
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-010
-    description: "ID_FOTO must reference an existing FOTO"
-    severity: ERROR
-    condition: "ID_FOTO REFERENCES FOTO"
-    affectedFields:
-      - ID_FOTO
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-011
-    description: "LOTACAO_ATUAL must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOTACAO_ATUAL REFERENCES LOCAL"
-    affectedFields:
-      - LOTACAO_ATUAL
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-012
-    description: "TIPO_FUNCIONARIO must reference an existing TIPO_FUNCIONARIO"
-    severity: ERROR
-    condition: "TIPO_FUNCIONARIO REFERENCES TIPO_FUNCIONARIO"
-    affectedFields:
-      - TIPO_FUNCIONARIO
-  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-013
-    description: "LOTACAO_ATUALQO must reference an existing LOCAL"
-    severity: ERROR
-    condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
-    affectedFields:
-      - LOTACAO_ATUALQO
-  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-004
-    description: "CURSO is required"
-    severity: ERROR
-    condition: "CURSO IS NOT NULL"
-    affectedFields:
-      - CURSO
-  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-005
-    description: "FUNCIONARIO is required"
-    severity: ERROR
-    condition: "FUNCIONARIO IS NOT NULL"
-    affectedFields:
-      - FUNCIONARIO
-  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-006
-    description: "CURSO must reference an existing CURSO"
-    severity: ERROR
-    condition: "CURSO REFERENCES CURSO"
-    affectedFields:
-      - CURSO
-  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-007
-    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
-    severity: ERROR
-    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
-    affectedFields:
-      - FUNCIONARIO
   - id: FUNCIONARIOF_BR-Funcionario-nome-NotNull
     description: "nome é obrigatório"
     severity: WARN
@@ -4603,3 +3983,525 @@ x-business-rules:
     condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
     affectedFields:
       - FUNCIONARIO
+  - id: FUNCAOQDIMB__BR-FuncaoQDI-nomeFuncao-NotNull
+    description: "nomeFuncao é obrigatório"
+    severity: WARN
+    condition: "nomeFuncao != null"
+    affectedFields:
+      - nomeFuncao
+  - id: FUNCAOQDIMB__BR-FuncaoQDI-nomeFuncao-Size
+    description: "nomeFuncao comprimento máx 120"
+    severity: WARN
+    condition: "len(nomeFuncao) <= 120"
+    affectedFields:
+      - nomeFuncao
+  - id: FUNCAOQDIMB__BR-FuncaoQDI-nomeFuncaoSIARHES-Size
+    description: "nomeFuncaoSIARHES comprimento máx 120"
+    severity: WARN
+    condition: "len(nomeFuncaoSIARHES) <= 120"
+    affectedFields:
+      - nomeFuncaoSIARHES
+  - id: FUNCAOQDIMB__BR-FuncaoQDI-ativo-NotNull
+    description: "ativo é obrigatório"
+    severity: WARN
+    condition: "ativo != null"
+    affectedFields:
+      - ativo
+  - id: FUNCAOQDIMB__BR-FuncaoQDI-geral-NotNull
+    description: "geral é obrigatório"
+    severity: WARN
+    condition: "geral != null"
+    affectedFields:
+      - geral
+  - id: FUNCAOQDIMB__BR-FuncaoQDI-gratificada-NotNull
+    description: "gratificada é obrigatório"
+    severity: WARN
+    condition: "gratificada != null"
+    affectedFields:
+      - gratificada
+  - id: FUNCAOQDIMB__BR-SQL-FUNCAO_QDI-001
+    description: "DATA_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - DATA_ULT_ALTERACAO
+  - id: FUNCAOQDIMB__BR-SQL-FUNCAO_QDI-002
+    description: "USUARIO_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - USUARIO_ULT_ALTERACAO
+  - id: FUNCAOQDIMB__BR-SQL-FUNCAO_QDI-003
+    description: "VERSAO is required"
+    severity: ERROR
+    condition: "VERSAO IS NOT NULL"
+    affectedFields:
+      - VERSAO
+  - id: FUNCAOQDIMB__BR-SQL-FUNCAO_QDI-004
+    description: "ATIVO is required"
+    severity: ERROR
+    condition: "ATIVO IS NOT NULL"
+    affectedFields:
+      - ATIVO
+  - id: FUNCAOQDIMB__BR-SQL-FUNCAO_QDI-005
+    description: "GERAL is required"
+    severity: ERROR
+    condition: "GERAL IS NOT NULL"
+    affectedFields:
+      - GERAL
+  - id: FUNCAOQDIMB__BR-SQL-FUNCAO_QDI-006
+    description: "NOME_FUNCAO is required"
+    severity: ERROR
+    condition: "NOME_FUNCAO IS NOT NULL"
+    affectedFields:
+      - NOME_FUNCAO
+  - id: FUNCAOQDIMB__BR-SQL-FUNCAO_QDI-007
+    description: "GRATIFICADA is required"
+    severity: ERROR
+    condition: "GRATIFICADA IS NOT NULL"
+    affectedFields:
+      - GRATIFICADA
+  - id: CAPACITACAOM_BR-Funcionario-nome-NotNull
+    description: "nome é obrigatório"
+    severity: WARN
+    condition: "nome != null"
+    affectedFields:
+      - nome
+  - id: CAPACITACAOM_BR-Funcionario-nome-Size
+    description: "nome comprimento máx 100"
+    severity: WARN
+    condition: "len(nome) <= 100"
+    affectedFields:
+      - nome
+  - id: CAPACITACAOM_BR-Funcionario-nomeGuerra-Size
+    description: "nomeGuerra comprimento máx 100"
+    severity: WARN
+    condition: "len(nomeGuerra) <= 100"
+    affectedFields:
+      - nomeGuerra
+  - id: CAPACITACAOM_BR-Funcionario-numeroFuncional-NotNull
+    description: "numeroFuncional é obrigatório"
+    severity: WARN
+    condition: "numeroFuncional != null"
+    affectedFields:
+      - numeroFuncional
+  - id: CAPACITACAOM_BR-Funcionario-numeroFuncional-Size
+    description: "numeroFuncional comprimento máx 20"
+    severity: WARN
+    condition: "len(numeroFuncional) <= 20"
+    affectedFields:
+      - numeroFuncional
+  - id: CAPACITACAOM_BR-Funcionario-cpf-Size
+    description: "cpf comprimento máx 14"
+    severity: WARN
+    condition: "len(cpf) <= 14"
+    affectedFields:
+      - cpf
+  - id: CAPACITACAOM_BR-Funcionario-fone-Size
+    description: "fone comprimento máx 100"
+    severity: WARN
+    condition: "len(fone) <= 100"
+    affectedFields:
+      - fone
+  - id: CAPACITACAOM_BR-Funcionario-celular-Size
+    description: "celular comprimento máx 100"
+    severity: WARN
+    condition: "len(celular) <= 100"
+    affectedFields:
+      - celular
+  - id: CAPACITACAOM_BR-Funcionario-email-Size
+    description: "email comprimento máx 200"
+    severity: WARN
+    condition: "len(email) <= 200"
+    affectedFields:
+      - email
+  - id: CAPACITACAOM_BR-Funcionario-cidadeNascimento-Size
+    description: "cidadeNascimento comprimento máx 50"
+    severity: WARN
+    condition: "len(cidadeNascimento) <= 50"
+    affectedFields:
+      - cidadeNascimento
+  - id: CAPACITACAOM_BR-Funcionario-paisNascimento-Size
+    description: "paisNascimento comprimento máx 50"
+    severity: WARN
+    condition: "len(paisNascimento) <= 50"
+    affectedFields:
+      - paisNascimento
+  - id: CAPACITACAOM_BR-Funcionario-nacionalidade-Size
+    description: "nacionalidade comprimento máx 50"
+    severity: WARN
+    condition: "len(nacionalidade) <= 50"
+    affectedFields:
+      - nacionalidade
+  - id: CAPACITACAOM_BR-Funcionario-nomePai-Size
+    description: "nomePai comprimento máx 200"
+    severity: WARN
+    condition: "len(nomePai) <= 200"
+    affectedFields:
+      - nomePai
+  - id: CAPACITACAOM_BR-Funcionario-nomeMae-Size
+    description: "nomeMae comprimento máx 200"
+    severity: WARN
+    condition: "len(nomeMae) <= 200"
+    affectedFields:
+      - nomeMae
+  - id: CAPACITACAOM_BR-Funcionario-prontuarioHPM-Size
+    description: "prontuarioHPM comprimento máx 20"
+    severity: WARN
+    condition: "len(prontuarioHPM) <= 20"
+    affectedFields:
+      - prontuarioHPM
+  - id: CAPACITACAOM_BR-Funcionario-tipoCadastro-Size
+    description: "tipoCadastro comprimento máx 50"
+    severity: WARN
+    condition: "len(tipoCadastro) <= 50"
+    affectedFields:
+      - tipoCadastro
+  - id: CAPACITACAOM_BR-Funcionario-corOlhos-Size
+    description: "corOlhos comprimento máx 50"
+    severity: WARN
+    condition: "len(corOlhos) <= 50"
+    affectedFields:
+      - corOlhos
+  - id: CAPACITACAOM_BR-Funcionario-corCabelos-Size
+    description: "corCabelos comprimento máx 50"
+    severity: WARN
+    condition: "len(corCabelos) <= 50"
+    affectedFields:
+      - corCabelos
+  - id: CAPACITACAOM_BR-Funcionario-sinaisParticulares-Size
+    description: "sinaisParticulares comprimento máx 50"
+    severity: WARN
+    condition: "len(sinaisParticulares) <= 50"
+    affectedFields:
+      - sinaisParticulares
+  - id: CAPACITACAOM_BR-Funcionario-altura-Size
+    description: "altura comprimento máx 10"
+    severity: WARN
+    condition: "len(altura) <= 10"
+    affectedFields:
+      - altura
+  - id: CAPACITACAOM_BR-Funcionario-UNIQUE-naoDeveExistirNumeroFuncionalDuplicado
+    description: "numeroFuncional não pode ser duplicado"
+    severity: WARN
+    condition: "count(numeroFuncional) == 0"
+    affectedFields:
+      - numeroFuncional
+  - id: CAPACITACAOM_BR-Funcionario-UNIQUE-naoDeveExistircpfDuplicado
+    description: "cpf não pode ser duplicado"
+    severity: WARN
+    condition: "count(cpf) == 0"
+    affectedFields:
+      - cpf
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-001
+    description: "DATA_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - DATA_ULT_ALTERACAO
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-002
+    description: "USUARIO_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - USUARIO_ULT_ALTERACAO
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-003
+    description: "VERSAO is required"
+    severity: ERROR
+    condition: "VERSAO IS NOT NULL"
+    affectedFields:
+      - VERSAO
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-004
+    description: "NOME is required"
+    severity: ERROR
+    condition: "NOME IS NOT NULL"
+    affectedFields:
+      - NOME
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-005
+    description: "NUMERO_FUNCIONAL is required"
+    severity: ERROR
+    condition: "NUMERO_FUNCIONAL IS NOT NULL"
+    affectedFields:
+      - NUMERO_FUNCIONAL
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-006
+    description: "ID_ASSINATURA must reference an existing ASSINATURA"
+    severity: ERROR
+    condition: "ID_ASSINATURA REFERENCES ASSINATURA"
+    affectedFields:
+      - ID_ASSINATURA
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-007
+    description: "ID_IMPRESSAO_DIGITAL must reference an existing IMPRESSAO_DIGITAL"
+    severity: ERROR
+    condition: "ID_IMPRESSAO_DIGITAL REFERENCES IMPRESSAO_DIGITAL"
+    affectedFields:
+      - ID_IMPRESSAO_DIGITAL
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-008
+    description: "LOCAL_ADIDO must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOCAL_ADIDO REFERENCES LOCAL"
+    affectedFields:
+      - LOCAL_ADIDO
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-009
+    description: "POSTO_GRADUACAO must reference an existing POSTO_GRADUACAO"
+    severity: ERROR
+    condition: "POSTO_GRADUACAO REFERENCES POSTO_GRADUACAO"
+    affectedFields:
+      - POSTO_GRADUACAO
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-010
+    description: "ID_FOTO must reference an existing FOTO"
+    severity: ERROR
+    condition: "ID_FOTO REFERENCES FOTO"
+    affectedFields:
+      - ID_FOTO
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-011
+    description: "LOTACAO_ATUAL must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOTACAO_ATUAL REFERENCES LOCAL"
+    affectedFields:
+      - LOTACAO_ATUAL
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-012
+    description: "TIPO_FUNCIONARIO must reference an existing TIPO_FUNCIONARIO"
+    severity: ERROR
+    condition: "TIPO_FUNCIONARIO REFERENCES TIPO_FUNCIONARIO"
+    affectedFields:
+      - TIPO_FUNCIONARIO
+  - id: CAPACITACAOM_BR-SQL-FUNCIONARIO-013
+    description: "LOTACAO_ATUALQO must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
+    affectedFields:
+      - LOTACAO_ATUALQO
+  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-004
+    description: "CURSO is required"
+    severity: ERROR
+    condition: "CURSO IS NOT NULL"
+    affectedFields:
+      - CURSO
+  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-005
+    description: "FUNCIONARIO is required"
+    severity: ERROR
+    condition: "FUNCIONARIO IS NOT NULL"
+    affectedFields:
+      - FUNCIONARIO
+  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-006
+    description: "CURSO must reference an existing CURSO"
+    severity: ERROR
+    condition: "CURSO REFERENCES CURSO"
+    affectedFields:
+      - CURSO
+  - id: CAPACITACAOM_BR-SQL-CAPACITACAO-007
+    description: "FUNCIONARIO must reference an existing FUNCIONARIO"
+    severity: ERROR
+    condition: "FUNCIONARIO REFERENCES FUNCIONARIO"
+    affectedFields:
+      - FUNCIONARIO
+  - id: FORMULARIOTR_BR-Funcionario-nome-NotNull
+    description: "nome é obrigatório"
+    severity: WARN
+    condition: "nome != null"
+    affectedFields:
+      - nome
+  - id: FORMULARIOTR_BR-Funcionario-nome-Size
+    description: "nome comprimento máx 100"
+    severity: WARN
+    condition: "len(nome) <= 100"
+    affectedFields:
+      - nome
+  - id: FORMULARIOTR_BR-Funcionario-nomeGuerra-Size
+    description: "nomeGuerra comprimento máx 100"
+    severity: WARN
+    condition: "len(nomeGuerra) <= 100"
+    affectedFields:
+      - nomeGuerra
+  - id: FORMULARIOTR_BR-Funcionario-numeroFuncional-NotNull
+    description: "numeroFuncional é obrigatório"
+    severity: WARN
+    condition: "numeroFuncional != null"
+    affectedFields:
+      - numeroFuncional
+  - id: FORMULARIOTR_BR-Funcionario-numeroFuncional-Size
+    description: "numeroFuncional comprimento máx 20"
+    severity: WARN
+    condition: "len(numeroFuncional) <= 20"
+    affectedFields:
+      - numeroFuncional
+  - id: FORMULARIOTR_BR-Funcionario-cpf-Size
+    description: "cpf comprimento máx 14"
+    severity: WARN
+    condition: "len(cpf) <= 14"
+    affectedFields:
+      - cpf
+  - id: FORMULARIOTR_BR-Funcionario-fone-Size
+    description: "fone comprimento máx 100"
+    severity: WARN
+    condition: "len(fone) <= 100"
+    affectedFields:
+      - fone
+  - id: FORMULARIOTR_BR-Funcionario-celular-Size
+    description: "celular comprimento máx 100"
+    severity: WARN
+    condition: "len(celular) <= 100"
+    affectedFields:
+      - celular
+  - id: FORMULARIOTR_BR-Funcionario-email-Size
+    description: "email comprimento máx 200"
+    severity: WARN
+    condition: "len(email) <= 200"
+    affectedFields:
+      - email
+  - id: FORMULARIOTR_BR-Funcionario-cidadeNascimento-Size
+    description: "cidadeNascimento comprimento máx 50"
+    severity: WARN
+    condition: "len(cidadeNascimento) <= 50"
+    affectedFields:
+      - cidadeNascimento
+  - id: FORMULARIOTR_BR-Funcionario-paisNascimento-Size
+    description: "paisNascimento comprimento máx 50"
+    severity: WARN
+    condition: "len(paisNascimento) <= 50"
+    affectedFields:
+      - paisNascimento
+  - id: FORMULARIOTR_BR-Funcionario-nacionalidade-Size
+    description: "nacionalidade comprimento máx 50"
+    severity: WARN
+    condition: "len(nacionalidade) <= 50"
+    affectedFields:
+      - nacionalidade
+  - id: FORMULARIOTR_BR-Funcionario-nomePai-Size
+    description: "nomePai comprimento máx 200"
+    severity: WARN
+    condition: "len(nomePai) <= 200"
+    affectedFields:
+      - nomePai
+  - id: FORMULARIOTR_BR-Funcionario-nomeMae-Size
+    description: "nomeMae comprimento máx 200"
+    severity: WARN
+    condition: "len(nomeMae) <= 200"
+    affectedFields:
+      - nomeMae
+  - id: FORMULARIOTR_BR-Funcionario-prontuarioHPM-Size
+    description: "prontuarioHPM comprimento máx 20"
+    severity: WARN
+    condition: "len(prontuarioHPM) <= 20"
+    affectedFields:
+      - prontuarioHPM
+  - id: FORMULARIOTR_BR-Funcionario-tipoCadastro-Size
+    description: "tipoCadastro comprimento máx 50"
+    severity: WARN
+    condition: "len(tipoCadastro) <= 50"
+    affectedFields:
+      - tipoCadastro
+  - id: FORMULARIOTR_BR-Funcionario-corOlhos-Size
+    description: "corOlhos comprimento máx 50"
+    severity: WARN
+    condition: "len(corOlhos) <= 50"
+    affectedFields:
+      - corOlhos
+  - id: FORMULARIOTR_BR-Funcionario-corCabelos-Size
+    description: "corCabelos comprimento máx 50"
+    severity: WARN
+    condition: "len(corCabelos) <= 50"
+    affectedFields:
+      - corCabelos
+  - id: FORMULARIOTR_BR-Funcionario-sinaisParticulares-Size
+    description: "sinaisParticulares comprimento máx 50"
+    severity: WARN
+    condition: "len(sinaisParticulares) <= 50"
+    affectedFields:
+      - sinaisParticulares
+  - id: FORMULARIOTR_BR-Funcionario-altura-Size
+    description: "altura comprimento máx 10"
+    severity: WARN
+    condition: "len(altura) <= 10"
+    affectedFields:
+      - altura
+  - id: FORMULARIOTR_BR-Funcionario-UNIQUE-naoDeveExistirNumeroFuncionalDuplicado
+    description: "numeroFuncional não pode ser duplicado"
+    severity: WARN
+    condition: "count(numeroFuncional) == 0"
+    affectedFields:
+      - numeroFuncional
+  - id: FORMULARIOTR_BR-Funcionario-UNIQUE-naoDeveExistircpfDuplicado
+    description: "cpf não pode ser duplicado"
+    severity: WARN
+    condition: "count(cpf) == 0"
+    affectedFields:
+      - cpf
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-001
+    description: "DATA_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "DATA_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - DATA_ULT_ALTERACAO
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-002
+    description: "USUARIO_ULT_ALTERACAO is required"
+    severity: ERROR
+    condition: "USUARIO_ULT_ALTERACAO IS NOT NULL"
+    affectedFields:
+      - USUARIO_ULT_ALTERACAO
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-003
+    description: "VERSAO is required"
+    severity: ERROR
+    condition: "VERSAO IS NOT NULL"
+    affectedFields:
+      - VERSAO
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-004
+    description: "NOME is required"
+    severity: ERROR
+    condition: "NOME IS NOT NULL"
+    affectedFields:
+      - NOME
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-005
+    description: "NUMERO_FUNCIONAL is required"
+    severity: ERROR
+    condition: "NUMERO_FUNCIONAL IS NOT NULL"
+    affectedFields:
+      - NUMERO_FUNCIONAL
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-006
+    description: "ID_ASSINATURA must reference an existing ASSINATURA"
+    severity: ERROR
+    condition: "ID_ASSINATURA REFERENCES ASSINATURA"
+    affectedFields:
+      - ID_ASSINATURA
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-007
+    description: "ID_IMPRESSAO_DIGITAL must reference an existing IMPRESSAO_DIGITAL"
+    severity: ERROR
+    condition: "ID_IMPRESSAO_DIGITAL REFERENCES IMPRESSAO_DIGITAL"
+    affectedFields:
+      - ID_IMPRESSAO_DIGITAL
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-008
+    description: "LOCAL_ADIDO must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOCAL_ADIDO REFERENCES LOCAL"
+    affectedFields:
+      - LOCAL_ADIDO
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-009
+    description: "POSTO_GRADUACAO must reference an existing POSTO_GRADUACAO"
+    severity: ERROR
+    condition: "POSTO_GRADUACAO REFERENCES POSTO_GRADUACAO"
+    affectedFields:
+      - POSTO_GRADUACAO
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-010
+    description: "ID_FOTO must reference an existing FOTO"
+    severity: ERROR
+    condition: "ID_FOTO REFERENCES FOTO"
+    affectedFields:
+      - ID_FOTO
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-011
+    description: "LOTACAO_ATUAL must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOTACAO_ATUAL REFERENCES LOCAL"
+    affectedFields:
+      - LOTACAO_ATUAL
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-012
+    description: "TIPO_FUNCIONARIO must reference an existing TIPO_FUNCIONARIO"
+    severity: ERROR
+    condition: "TIPO_FUNCIONARIO REFERENCES TIPO_FUNCIONARIO"
+    affectedFields:
+      - TIPO_FUNCIONARIO
+  - id: FORMULARIOTR_BR-SQL-FUNCIONARIO-013
+    description: "LOTACAO_ATUALQO must reference an existing LOCAL"
+    severity: ERROR
+    condition: "LOTACAO_ATUALQO REFERENCES LOCAL"
+    affectedFields:
+      - LOTACAO_ATUALQO

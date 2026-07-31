@@ -10,10 +10,10 @@ Modernized from a legacy system by RNC.
 
 ## Entities
 
-- Curso — `/cursos`
 - Funcionario — `/funcionarios`
-- Lotacao — `/lotacaos`
-- MesAnoFerias — `/mes_ano_ferias`
+- TipoFuncionario — `/tipo_funcionarios`
+- AuditoriaDetalhadaFuncionario — `/auditoria_detalhada_funcionarios`
+- FuncaoQdi — `/funcao_qdis`
 
 ## Run
 

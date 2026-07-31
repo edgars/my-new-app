@@ -4,38 +4,34 @@
 type GridColDefault = { key: string; defaultLabel: string; label: string; visible: boolean; order: number; format?: "currency" | "date" | "boolean" };
 
 export const ENTITY_COLS: Record<string, GridColDefault[]> = {
-  cursos: [
-    { key: "nomeCurso", defaultLabel: "Nome Curso", label: "Nome Curso", visible: true, order: 0 },
-    { key: "nomeCurso", defaultLabel: "Nome Curso", label: "Nome Curso", visible: true, order: 1 },
-    { key: "abvCurso", defaultLabel: "Abv Curso", label: "Abv Curso", visible: true, order: 2 },
-    { key: "ativo", defaultLabel: "Ativo", label: "Ativo", visible: true, order: 3 },
-    { key: "interesseCorporacao", defaultLabel: "Interesse Corporacao", label: "Interesse Corporacao", visible: true, order: 4 },
-  ],
   funcionarios: [
-    { key: "nome", defaultLabel: "Nome", label: "Nome", visible: true, order: 0 },
-    { key: "nomeGuerra", defaultLabel: "Nome Guerra", label: "Nome Guerra", visible: true, order: 1 },
-    { key: "numeroFuncional", defaultLabel: "Numero Funcional", label: "Numero Funcional", visible: true, order: 2 },
-    { key: "nomePai", defaultLabel: "Nome Pai", label: "Nome Pai", visible: true, order: 3 },
-    { key: "nomeMae", defaultLabel: "Nome Mae", label: "Nome Mae", visible: true, order: 4 },
   ],
-  lotacaos: [
-    { key: "funcionarioAuxLookup", defaultLabel: "Funcionario Aux Lookup", label: "Funcionario Aux Lookup", visible: true, order: 0 },
-    { key: "atual", defaultLabel: "Atual", label: "Atual", visible: true, order: 1 },
-    { key: "substituicao", defaultLabel: "Substituicao", label: "Substituicao", visible: true, order: 2 },
-    { key: "ativo", defaultLabel: "Ativo", label: "Ativo", visible: true, order: 3 },
-    { key: "obs", defaultLabel: "Obs", label: "Obs", visible: true, order: 4 },
+  auditoria_detalhada_funcionarios: [
+    { key: "tabela", defaultLabel: "Tabela", label: "Tabela", visible: true, order: 0 },
+    { key: "nfFuncionario", defaultLabel: "Nf Funcionario", label: "Nf Funcionario", visible: true, order: 1 },
+    { key: "usuarioUltAlteracao", defaultLabel: "Usuario Ult Alteracao", label: "Usuario Ult Alteracao", visible: true, order: 2 },
+    { key: "data", defaultLabel: "Data", label: "Data", visible: true, order: 3, format: "date" as const },
+    { key: "evento", defaultLabel: "Evento", label: "Evento", visible: true, order: 4 },
   ],
-  mes_ano_ferias: [
-    { key: "mes", defaultLabel: "Mes", label: "Mes", visible: true, order: 0 },
-    { key: "funcionario", defaultLabel: "Funcionario", label: "Funcionario", visible: true, order: 1 },
-    { key: "id", defaultLabel: "Id", label: "Id", visible: true, order: 2 },
-    { key: "ano", defaultLabel: "Ano", label: "Ano", visible: true, order: 3 },
+  funcao_qdis: [
+    { key: "nomeFuncao", defaultLabel: "Nome Funcao", label: "Nome Funcao", visible: true, order: 0 },
+    { key: "nomeFuncaoSiarhes", defaultLabel: "Nome Funcao Siarhes", label: "Nome Funcao Siarhes", visible: true, order: 1 },
+    { key: "ativo", defaultLabel: "Ativo", label: "Ativo", visible: true, order: 2, format: "boolean" as const },
+    { key: "geral", defaultLabel: "Geral", label: "Geral", visible: true, order: 3, format: "boolean" as const },
+    { key: "gratificada", defaultLabel: "Gratificada", label: "Gratificada", visible: true, order: 4, format: "boolean" as const },
+  ],
+  tipo_funcionarios: [
+    { key: "tipo", defaultLabel: "Tipo", label: "Tipo", visible: true, order: 0 },
+    { key: "categoriaSiarhes", defaultLabel: "Categoria Siarhes", label: "Categoria Siarhes", visible: true, order: 1 },
+    { key: "militar", defaultLabel: "Militar", label: "Militar", visible: true, order: 2 },
+    { key: "ignorarImportacao", defaultLabel: "Ignorar Importacao", label: "Ignorar Importacao", visible: true, order: 3 },
+    { key: "usuarioUltAlteracao", defaultLabel: "Usuario Ult Alteracao", label: "Usuario Ult Alteracao", visible: true, order: 4 },
   ],
 };
 
 export const ENTITY_LABELS: Record<string, string> = {
-  cursos: "Cursos",
   funcionarios: "Funcionarios",
-  lotacaos: "Lotacaos",
-  mes_ano_ferias: "Mes Ano Ferias",
+  auditoria_detalhada_funcionarios: "Auditoria Detalhada Funcionarios",
+  funcao_qdis: "Funcao Qdis",
+  tipo_funcionarios: "Tipo Funcionarios",
 };

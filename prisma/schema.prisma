@@ -7,24 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Curso {
-  id  Int  @id @default(autoincrement())
-  abvCurso  String
-  nomeCurso  String
-  ativo  String
-  interesseCorporacao  String
-  dataUltAlteracao  DateTime
-  usuarioUltAlteracao  String
-  versao  Int
-  abvCurso  String
-  interesseCorporacao  String
-  nomeCurso  String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("curso")
-}
-
 model Funcionario {
   id  Int  @id @default(autoincrement())
   nome  String
@@ -170,39 +152,56 @@ model Funcionario {
   @@map("funcionario")
 }
 
-model Lotacao {
+model TipoFuncionario {
   id  Int  @id @default(autoincrement())
-  funcionarioAuxLookup  String?
-  dataInicio  DateTime?
-  dataFim  DateTime?
-  atual  String?
-  substituicao  String?
-  ativo  String?
-  obs  String?
+  tipo  String
+  categoriaSiarhes  String
+  militar  String
+  ignorarImportacao  String
   dataUltAlteracao  DateTime
   usuarioUltAlteracao  String
   versao  Int
-  dataFim  DateTime?
-  dataInicio  DateTime?
-  funcaoqdi  Int
-  funcionario  Int?
-  local  Int
-  postoGraduacao  Int?
+  categoriaSiarhes  String
+  ignorarImportacao  String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("lotacao")
+  @@map("tipo_funcionario")
 }
 
-model MesAnoFerias {
+model AuditoriaDetalhadaFuncionario {
   id  Int  @id @default(autoincrement())
-  mes  String
-  ano  Int
-  funcionario  String?
+  tabela  String
+  data  DateTime
+  nfFuncionario  String?
+  evento  String?
+  observacao  String?
+  dataUltAlteracao  DateTime
+  usuarioUltAlteracao  String
+  versao  Int
+  nfFuncionario  String?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("mes_ano_ferias")
+  @@map("auditoria_detalhada_funcionario")
+}
+
+model FuncaoQdi {
+  id  Int  @id @default(autoincrement())
+  nomeFuncao  String
+  nomeFuncaoSiarhes  String?
+  ativo  String
+  geral  String
+  gratificada  String
+  dataUltAlteracao  DateTime
+  usuarioUltAlteracao  String
+  versao  Int
+  nomeFuncao  String
+  nomeFuncaosiarhes  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("funcao_qdi")
 }
 
 
