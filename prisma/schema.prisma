@@ -1,0 +1,313 @@
+// SIFAP — schema derivado de docs/architecture.md (RNC → UIR → BMAD).
+//
+// Proveniência:
+//   FONTE      colunas e tabelas exatamente como em docs/architecture.md
+//   NOVO       acrescentado nesta build; ver docs/build/02-divergences.md
+//   [PRESUMIDO] leitura adotada onde a fonte não deu semântica
+//
+// Nomes preservados como a fonte os entregou: tabela em snake_case (@@map),
+// colunas em camelCase. Não normalizado de propósito — fidelidade ao artefato.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ---------------------------------------------------------------------------
+// NOVO — não existe na fonte. Justificativa em docs/build/02-divergences.md S-05.
+// O legado não expôs tabela de usuário, mas gravava usrInclusao, usrUltAlteracao,
+// usrEvento, codPerfil e codLotacao: havia usuário identificado. Rigor "produção"
+// sobre dados de CPF, renda, biometria e conta bancária exige auth fail-closed.
+// ---------------------------------------------------------------------------
+model Usuario {
+  id           Int      @id @default(autoincrement())
+  login        String   @unique
+  nome         String
+  senhaHash    String
+  codPerfil    String   @default("OPER")
+  codLotacao   String?
+  ativo        Boolean  @default(true)
+  criadoEm     DateTime @default(now())
+
+  sessoes Sessao[]
+
+  @@map("usuario")
+}
+
+model Sessao {
+  id        String   @id
+  usuarioId Int
+  expiraEm  DateTime
+  criadoEm  DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@map("sessao")
+}
+
+// ---------------------------------------------------------------------------
+// ProgramaSocial — FONTE: docs/architecture.md
+// ---------------------------------------------------------------------------
+model ProgramaSocial {
+  id                Int     @id @default(autoincrement())
+  // UNIQUE: NOVO no DDL, mas provado por FR-15 (`#OPER = 'I' AND #FOUND` ⇒ erro).
+  // Ver docs/build/02-divergences.md D-04. É a rede final contra corrida de inserção.
+  codPrograma       String? @unique
+  nomePrograma      String?
+  siglaPrograma     String?
+  tipoPrograma      String?
+  orgaoResponsavel  String?
+  leiCriacao        String?
+  dtCriacao         Float?
+  dtEncerramento    Float?
+  sitPrograma       String?
+  vlrBaseIndividual Float?
+  vlrBaseFamiliar   Float?
+  vlrTetoBenef      Float?
+  vlrPisoBenef      Float?
+  pctReajusteAnual  Float?
+  dtUltReajuste     Float?
+  fatorK            Float?
+  rendaMaxPercap    Float?
+  idadeMin          Float?
+  idadeMax          Float?
+  indExigeFilhos    String?
+  qtdMinFilhos      Float?
+  indExigeEscola    String?
+  indExigeVacina    String?
+  indExigePrenatal  String?
+  indExigeBiometria String?
+  dtInclusao        Float?
+  usrInclusao       String?
+  dtUltAlteracao    Float?
+  usrUltAlteracao   String?
+
+  // NOVO — S-02. Grupos MU/PE do NATURAL são arrays filhos; a fonte os gerou órfãos.
+  // Sem o pai, INV-18 e INV-19 são inimplementáveis.
+  faixasCalculo   ProgramaSocialGrpFaixaCalculo[]
+  paramsRegionais ProgramaSocialGrpParamRegional[]
+
+  @@map("programa_social")
+}
+
+model ProgramaSocialGrpFaixaCalculo {
+  id                 Int     @id @default(autoincrement())
+  rendaInicio        Float?
+  rendaFim           Float?
+  fatorMultiplicador Float?
+  vlrAdicional       Float?
+  indAcumulativo     String?
+
+  // NOVO — S-02. Anulável: FR-02 exige CRUD independente desta entidade.
+  programaSocialId Int?
+  programaSocial   ProgramaSocial? @relation(fields: [programaSocialId], references: [id], onDelete: SetNull)
+
+  @@index([programaSocialId])
+  @@map("programa_social_grp_faixa_calculo")
+}
+
+model ProgramaSocialGrpParamRegional {
+  id                Int     @id @default(autoincrement())
+  codRegiao         String?
+  fatorRegional     Float?
+  vlrComplementoReg Float?
+  indAtivoRegiao    String?
+
+  // NOVO — S-02.
+  programaSocialId Int?
+  programaSocial   ProgramaSocial? @relation(fields: [programaSocialId], references: [id], onDelete: SetNull)
+
+  @@index([programaSocialId])
+  @@map("programa_social_grp_param_regional")
+}
+
+// ---------------------------------------------------------------------------
+// Auditoria — FONTE: docs/architecture.md
+// CRUD de escrita liberado por decisão do usuário (2026-08-02). Defeito herdado
+// registrado em docs/build/02-divergences.md S-03: operador pode apagar o próprio rastro.
+// ---------------------------------------------------------------------------
+model Auditoria {
+  id               Int     @id @default(autoincrement())
+  numAuditoria     Float?
+  dtEvento         Float?
+  hrEvento         Float?
+  tsEvento         Float?
+  codAcao          String?
+  codModulo        String?
+  desAcao          String?
+  tipoEntidade     String?
+  idEntidade       String?
+  numCpfAfetado    String?
+  usrEvento        String?
+  nomeUsuario      String?
+  codPerfil        String?
+  codLotacao       String?
+  ipOrigem         String?
+  idSessao         String?
+  numCicloBatch    Float?
+  numSeqBatch      Float?
+  nomJobBatch      String?
+  sitBatch         String?
+  desErroBatch     String?
+  idCorrelacao     String?
+  numSeqCorrelacao Float?
+
+  @@index([dtEvento])
+  @@index([tipoEntidade, idEntidade])
+  @@map("auditoria")
+}
+
+// ---------------------------------------------------------------------------
+// Beneficiario — FONTE: docs/architecture.md
+// ---------------------------------------------------------------------------
+model Beneficiario {
+  id                Int     @id @default(autoincrement())
+  // UNIQUE em numInscricao e numCpf: D-04, provado por FR-15/FR-16.
+  numInscricao      Float?  @unique
+  numCpf            String? @unique
+  nomeCompleto      String?
+  nomeMae           String?
+  nomePai           String?
+  dtNascimento      Float?
+  sexo              String?
+  estCivil          String?
+  rgNumero          String?
+  rgOrgao           String?
+  rgUf              String?
+  rgDtExpedicao     Float?
+  logradouro        String?
+  numero            String?
+  complemento       String?
+  bairro            String?
+  municipio         String?
+  uf                String?
+  cep               Float?
+  codIbge           Float?
+  codRegiao         String?
+  codPrograma       String?
+  dtCadastro        Float?
+  dtInicioBenef     Float?
+  dtFimBenef        Float?
+  sitBeneficiario   String?
+  motSituacao       String?
+  dtUltSituacao     Float?
+  vlrRendaFamiliar  Float?
+  qtdMembrosFamilia Float?
+  indRendaPercap    Float?
+  telFixo           String?
+  telCelular        String?
+  email             String?
+  indBiometria      String?
+  dtColetaBio       Float?
+  codPostoBio       String?
+  hashDigital       String?
+  dtInclusao        Float?
+  hrInclusao        Float?
+  usrInclusao       String?
+  dtUltAlteracao    Float?
+  hrUltAlteracao    Float?
+  usrUltAlteracao   String?
+  // FONTE. Coluna de trava otimista que o legado já tinha — usada como o
+  // substituto de SELECT FOR UPDATE que o SQLite não oferece.
+  numVersao         Float?  @default(1)
+
+  // NOVO — S-02.
+  dependentes BeneficiarioGrpDependente[]
+
+  @@index([codPrograma])
+  @@map("beneficiario")
+}
+
+model BeneficiarioGrpDependente {
+  id             Int     @id @default(autoincrement())
+  cpfDependente  String?
+  nomeDependente String?
+  dtNascDepend   Float?
+  parentesco     String?
+  sitDependente  String?
+  indDeficiencia String?
+
+  // NOVO — S-02.
+  beneficiarioId Int?
+  beneficiario   Beneficiario? @relation(fields: [beneficiarioId], references: [id], onDelete: SetNull)
+
+  @@index([beneficiarioId])
+  @@map("beneficiario_grp_dependente")
+}
+
+// ---------------------------------------------------------------------------
+// Pagamento — FONTE: docs/architecture.md
+// Valores em Float por fidelidade ao schema especificado (S-01). Toda aritmética
+// acontece em centavos inteiros em src/lib/money.ts; só o resultado truncado é gravado.
+// ---------------------------------------------------------------------------
+model Pagamento {
+  id               Int     @id @default(autoincrement())
+  numPagamento     Float?  @unique // D-04
+  numCpf           String?
+  numInscricao     Float?
+  codPrograma      String?
+  anoMesRef        Float?
+  numCiclo         Float?
+  vlrBruto         Float?
+  vlrLiquido       Float?
+  vlrDescontoTotal Float?
+  sitPagamento     String?
+  dtGeracao        Float?
+  hrGeracao        Float?
+  dtEmissao        Float?
+  dtConfirmacao    Float?
+  dtCancelamento   Float?
+  motCancelamento  String?
+  codBanco         String?
+  codAgencia       String?
+  numConta         String?
+  tipoConta        String?
+  codOperacao      String?
+  numObSiafi       String?
+  numNeSiafi       String?
+  codUgEmitente    String?
+  codGestao        String?
+  sitIntegSiafi    String?
+  dtConciliacao    Float?
+  sitConciliacao   String?
+  vlrConciliado    Float?
+  codRetornoBanco  String?
+  desRetornoBanco  String?
+  hashArqRemessa   String?
+  hashArqRetorno   String?
+  dtInclusao       Float?
+  hrInclusao       Float?
+  usrInclusao      String?
+  dtUltAlteracao   Float?
+  hrUltAlteracao   Float?
+  usrUltAlteracao  String?
+
+  // NOVO — S-02.
+  descontos PagamentoGrpDesconto[]
+
+  @@index([numCpf])
+  @@index([anoMesRef])
+  @@map("pagamento")
+}
+
+model PagamentoGrpDesconto {
+  id            Int     @id @default(autoincrement())
+  tipoDesconto  String?
+  vlrDesconto   Float?
+  pctDesconto   Float?
+  numProcesso   String?
+  dtInicioDsct  Float?
+  dtFimDsct     Float?
+
+  // NOVO — S-02. Sem isto, INV-28..31 não têm como somar os descontos de um pagamento.
+  pagamentoId Int?
+  pagamento   Pagamento? @relation(fields: [pagamentoId], references: [id], onDelete: SetNull)
+
+  @@index([pagamentoId])
+  @@map("pagamento_grp_desconto")
+}
