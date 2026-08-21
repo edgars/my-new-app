@@ -21,7 +21,13 @@ export interface BancoDeTeste {
   url: string
   /** Abre uma conexão nova — cada uma é um concorrente independente. */
   novoCliente(): PrismaClient
-  destruir(): void
+  /**
+   * Assíncrono de propósito: o Windows recusa `rmSync` enquanto algum handle do
+   * arquivo estiver aberto (EPERM). Os `$disconnect()` têm que **terminar**
+   * antes do rm — disparar sem esperar quebra só no Windows, e o teste ainda
+   * reporta os asserts como verdes, o que esconde a causa.
+   */
+  destruir(): Promise<void>
 }
 
 const RAIZ = path.resolve(__dirname, '..', '..')
@@ -65,8 +71,8 @@ export function criarBancoDeTeste(): BancoDeTeste {
       clientes.push(c)
       return c
     },
-    destruir() {
-      for (const c of clientes) void c.$disconnect()
+    async destruir() {
+      await Promise.all(clientes.map((c) => c.$disconnect()))
       rmSync(dir, { recursive: true, force: true })
     },
   }

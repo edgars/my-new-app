@@ -38,8 +38,8 @@ beforeAll(() => {
   clientes = Array.from({ length: 8 }, () => banco.novoCliente())
 })
 
-afterAll(() => {
-  banco.destruir()
+afterAll(async () => {
+  await banco.destruir()
 })
 
 describe('FR-15 sob concorrência — inclusão do mesmo CPF em paralelo', () => {
