@@ -66,3 +66,21 @@ pnpm build         # tem que passar SEM DATABASE_URL
 pnpm db:migrate && pnpm db:seed
 pnpm dev
 ```
+
+Os mesmos scripts existem em `npm run <script>`. O Codespaces usa **npm** —
+`.devcontainer/setup.sh` é o caminho verificado. Os dois lockfiles estão
+versionados; não misture os dois gerenciadores no mesmo `node_modules`.
+
+Setup do zero (qualquer ambiente): `.env` a partir de `.env.example` →
+`prisma generate` (gera `src/generated/`, que é gitignored) → `migrate deploy` →
+`db:seed`. Pular o `generate` quebra todo import de `@/generated/prisma/client`.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
