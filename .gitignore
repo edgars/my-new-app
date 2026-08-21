@@ -13,3 +13,4 @@ prisma/e2e.db
 /blob-report
 /playwright/.cache
 src/generated
+tsconfig.tsbuildinfo
