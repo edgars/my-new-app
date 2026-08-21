@@ -1,0 +1,3 @@
+# Scripts de shell precisam de LF: com CRLF o bash do Linux falha com
+# "\r: command not found" — e o setup do Codespace morre no postCreateCommand.
+*.sh text eol=lf
